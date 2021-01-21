@@ -39,6 +39,6 @@ export class User {
   @CreateDateColumn()
   public createdAt: Date;
 
-  @OneToOne(type => Address, { eager: true, cascade: true })
+  @OneToOne(type => Address, { cascade: true })
   public address: Address;
 }

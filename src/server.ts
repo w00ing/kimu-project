@@ -6,14 +6,5 @@ import ormconfig from "./config/ormconfig";
 
 validateEnv();
 
-(async () => {
-  try {
-    await createConnection(ormconfig);
-    console.log("✅ Connected to the Database!");
-  } catch (error) {
-    console.log("Error while connecting to the database", error);
-    return error;
-  }
-  const app = new App([], Number(serverConfig.server.port));
-  app.listen();
-})();
+const app = new App(ormconfig, Number(serverConfig.server.port));
+app.listen();
