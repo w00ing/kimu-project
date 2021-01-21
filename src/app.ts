@@ -1,26 +1,26 @@
 import { createConnection } from "typeorm";
-// import IndexRouter from "./routes/indexRouter";
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import logging from "./config/logging";
 import errorMiddleware from "./middlewares/errorMiddleware";
+import HttpException from "./exceptions/HttpException";
+import util from "./modules/util";
 // import indexRouter from "./routes/indexRouter";
 
 class App {
-  public app: express.Application;
+  // public app: express.Application;
+  public app = express();
+  public use: any;
   public port: number;
 
   constructor(ormconfig: {}, port: number) {
-    this.app = express();
+    // this.app = express();
     this.port = port;
 
     this.initializeParsing();
-    this.initializeIndexRouter(ormconfig);
     this.initializeLogging();
     this.initializeCors();
-    this.initializeErrorHandling();
-    // this.initializeControllers(controllers);
-    // this.initializeConnection(ormconfig);
+    this.initializeConnection(ormconfig);
   }
 
   private NAMESPACE = "Server";
@@ -46,10 +46,6 @@ class App {
     });
   }
 
-  private initializeErrorHandling() {
-    this.app.use(errorMiddleware);
-  }
-
   private initializeLogging() {
     this.app.use((req, res, next) => {
       logging.info(
@@ -68,22 +64,17 @@ class App {
     });
   }
 
-  private async initializeIndexRouter(ormconfig) {
+  private async initializeConnection(ormconfig) {
     try {
       await createConnection(ormconfig);
       console.log("✅ Connected to the Database!");
       const { default: IndexRouter } = await import("./routes/indexRouter");
       this.app.use("/", IndexRouter);
+      this.app.use(errorMiddleware);
     } catch (e) {
       console.log("❌ Error while connecting to the database", e);
     }
   }
-
-  // private initializeControllers(controllers) {
-  //   controllers.forEach(controller => {
-  //     this.app.use("/", controller.router.route);
-  //   });
-  // }
 
   public listen() {
     this.app.listen(this.port, () => {

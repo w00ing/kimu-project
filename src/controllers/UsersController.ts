@@ -1,3 +1,4 @@
+import { CreateUserDto } from "./../dto/CreateUserDto";
 import { User } from "../entity/User";
 import { Request, Response, NextFunction } from "express";
 import logging from "../config/logging";
@@ -5,9 +6,11 @@ import { getRepository } from "typeorm";
 import statusCode from "../modules/statusCode";
 import responseMessage from "../modules/responseMessage";
 import util from "../modules/util";
+import InternalServerException from "../exceptions/InternalServerException";
 
 class UsersController {
   private userRepo = getRepository(User);
+  // private createUserDto = new CreateUserDto()
   private NAMESPACE = "Users Controller";
 
   public getAllUsers = async (
@@ -30,17 +33,22 @@ class UsersController {
         );
     } catch (e) {
       console.log(e);
-      return res
-        .status(statusCode.INTERNAL_SERVER_ERROR)
-        .send(
-          util.fail(
-            statusCode.INTERNAL_SERVER_ERROR,
-            responseMessage.INTERNAL_SERVER_ERROR,
-          ),
-        );
+      next(new InternalServerException());
     }
-
-    // public get
+  };
+  public createUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    logging.info(this.NAMESPACE, `Create a user`);
+    const CreateUserDto = req;
+    try {
+      const user = await this.userRepo.find({ where: { CreateUserDto } });
+    } catch (e) {
+      console.log(e);
+      next(new InternalServerException());
+    }
   };
 }
 

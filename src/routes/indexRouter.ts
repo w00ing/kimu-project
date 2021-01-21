@@ -1,4 +1,5 @@
 import express from "express";
+import HttpException from "../exceptions/HttpException";
 import usersRouter from "./usersRouter";
 
 const indexRouter = express.Router();

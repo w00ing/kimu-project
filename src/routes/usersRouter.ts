@@ -5,7 +5,7 @@ const usersController = new UsersController();
 const usersRouter = express.Router();
 
 // Create User
-usersRouter.post("/");
+usersRouter.post("/", usersController.createUser);
 
 // Get All Users
 usersRouter.get("/", usersController.getAllUsers);
