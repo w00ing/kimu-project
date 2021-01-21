@@ -7,11 +7,10 @@ import errorMiddleware from "./middlewares/errorMiddleware";
 // import indexRouter from "./routes/indexRouter";
 
 class App {
-  // public app: express.Application;
-  public app: any;
+  public app: express.Application;
   public port: number;
 
-  constructor(ormconfig, port: number) {
+  constructor(ormconfig: {}, port: number) {
     this.app = express();
     this.port = port;
 
@@ -80,15 +79,15 @@ class App {
     }
   }
 
-  private initializeControllers(controllers) {
-    controllers.forEach(controller => {
-      this.app.use("/", controller.router.route);
-    });
-  }
+  // private initializeControllers(controllers) {
+  //   controllers.forEach(controller => {
+  //     this.app.use("/", controller.router.route);
+  //   });
+  // }
 
   public listen() {
     this.app.listen(this.port, () => {
-      console.log(`✅ App listening on the port ${this.port}`);
+      console.log(`✅ Listening on the PORT: ${this.port}`);
     });
   }
 }
