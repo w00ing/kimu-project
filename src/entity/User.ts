@@ -1,12 +1,6 @@
 import { Address } from "./Address";
 import { Exclude } from "class-transformer";
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -38,6 +32,6 @@ export class User {
   @CreateDateColumn()
   public createdAt: Date;
 
-  @OneToOne(type => Address, { cascade: true })
+  @OneToOne(type => Address, address => address.user, { cascade: true })
   public address: Address;
 }

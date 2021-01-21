@@ -1,54 +1,69 @@
-import { CreateUserDto } from "./../dto/CreateUserDto";
-import { User } from "../entity/User";
 import { Request, Response, NextFunction } from "express";
-import logging from "../config/logging";
 import { getRepository } from "typeorm";
-import statusCode from "../modules/statusCode";
+import { BaseController } from "./BaseController";
+import { User } from "../entity/User";
+import logging from "../config/logging";
 import responseMessage from "../modules/responseMessage";
-import util from "../modules/util";
 import InternalServerException from "../exceptions/InternalServerException";
+import ConflictException from "../exceptions/ConflictException";
+import bcrypt from "bcrypt";
 
-class UsersController {
+class UsersController extends BaseController {
   private userRepo = getRepository(User);
-  // private createUserDto = new CreateUserDto()
   private NAMESPACE = "Users Controller";
 
-  public getAllUsers = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    logging.info(this.NAMESPACE, `Get all users`);
+  public createUser = async (req: Request, res: Response, next: NextFunction) => {
+    logging.info(this.NAMESPACE, `Create a user`);
 
+    const {
+      email,
+      name,
+      password,
+      address,
+      phoneNumber,
+      birthdate,
+      agreedToMarketingMsgs,
+    } = req.body;
     try {
-      const users = await this.userRepo.find();
-      res
-        .status(statusCode.OK)
-        .send(
-          util.success(
-            statusCode.OK,
-            responseMessage.GET_ALL_USERS_SUCCESS,
-            users,
-          ),
-        );
+      const alreadyUser = await this.findByEmail(email);
+      if (alreadyUser) {
+        next(new ConflictException(responseMessage.ALREADY_USER));
+      }
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = this.userRepo.create({
+        email,
+        name,
+        password: hashedPassword,
+        address,
+        phoneNumber,
+        birthdate,
+        agreedToMarketingMsgs,
+      });
+      await this.userRepo.save(user);
+      user.password = undefined;
+      this.OK(res, responseMessage.CREATE_USER_SUCCESS, user);
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
     }
   };
-  public createUser = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    logging.info(this.NAMESPACE, `Create a user`);
-    const CreateUserDto = req;
+
+  public getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+    logging.info(this.NAMESPACE, `Get all users`);
+
     try {
-      const user = await this.userRepo.find({ where: { CreateUserDto } });
+      const users = await this.userRepo.find();
+      this.OK(res, responseMessage.GET_ALL_USERS_SUCCESS, users);
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
     }
+  };
+
+  // public getOneUser
+
+  private findByEmail = async (email: string) => {
+    return await this.userRepo.findOne({ email });
   };
 }
 
