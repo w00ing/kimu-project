@@ -7,10 +7,16 @@ const usersRouter = express.Router();
 // Create User
 usersRouter.post("/", usersController.createUser);
 
+// Login
+usersRouter.post("/login", usersController.login);
+
+// Logout
+usersRouter.post("/logout", usersController.logout);
+
 // Get All Users
 usersRouter.get("/", usersController.getAllUsers);
 
-// Get User by Email
+// Get User Profile by Email
 usersRouter.get("/");
 
 // Update User

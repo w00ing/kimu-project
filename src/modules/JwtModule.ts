@@ -1,5 +1,6 @@
 import { User } from "./../entity/User";
 import jwt from "jsonwebtoken";
+import { TokenPayload } from "../interfaces/TokenPayload";
 
 class JwtModule {
   private secretKey = process.env.JWT_SECRET;
@@ -11,14 +12,14 @@ class JwtModule {
   private TOKEN_EXPIRED = -3;
   private TOKEN_INVALID = -2;
 
-  public sign = (user: User): { accessToken: string } => {
-    const payload = {
+  public createToken = (user: User): { expiresIn: number; accessToken: string } => {
+    const payload: TokenPayload = {
       id: user.id,
-      username: user.name,
-      // snsId: user.snsId || null,
-      // socialType: user.socialType || null,
+      email: user.email,
+      name: user.name,
     };
     const result = {
+      expiresIn: Number(this.options.expiresIn.slice(0, -1)) * 86400,
       accessToken: jwt.sign(payload, this.secretKey, this.options),
       // refreshToken: jwt.sign(payload, secretKey, refreshOptions),
     };

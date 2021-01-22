@@ -1,11 +1,9 @@
 import { createConnection } from "typeorm";
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import bodyParser from "body-parser";
 import logging from "./config/logging";
 import errorMiddleware from "./middlewares/errorMiddleware";
-import HttpException from "./exceptions/HttpException";
-import util from "./modules/util";
-// import indexRouter from "./routes/indexRouter";
+import cookieParser from "cookie-parser";
 
 class App {
   // public app: express.Application;
@@ -28,6 +26,7 @@ class App {
   private initializeParsing() {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
+    this.app.use(cookieParser());
   }
 
   private initializeCors() {
