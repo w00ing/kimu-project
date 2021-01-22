@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "lib": ["es5", "es6"],
     "target": "es5",
     "module": "commonjs",
@@ -8,6 +9,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "esModuleInterop": true
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "types": []
   }
 }

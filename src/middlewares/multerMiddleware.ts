@@ -14,13 +14,7 @@ const multerProfileImage = multer({
     bucket: "sopt-27-wooyeong",
     acl: "public-read",
     key: function (req, file, cb) {
-      cb(
-        null,
-        "kimu/users/profileImage/" +
-          Date.now() +
-          "." +
-          file.originalname.split(".").pop(),
-      );
+      cb(null, "kimu/users/profileImage/" + Date.now() + "." + file.originalname.split(".").pop());
     },
   }),
 });
