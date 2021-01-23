@@ -11,6 +11,7 @@
     "sourceMap": true,
     "baseUrl": "./",
     "esModuleInterop": true,
-    "types": []
+    "types": ["node"]
   }
+  // "exclude": ["**/node_modules/aws-sdk/**"]
 }

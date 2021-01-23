@@ -1,37 +1,39 @@
-import { Address } from "./Address";
 import { Exclude } from "class-transformer";
 import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  public id: number;
+  id: number;
 
   @Column({ unique: true })
-  public email: string;
+  email: string;
 
   @Column()
   @Exclude()
-  public password: string;
+  password: string;
 
   @Column()
-  public name: string;
+  name: string;
 
   @Column()
-  public phoneNumber: string;
+  phoneNumber: string;
 
   @Column({ type: "date" })
-  public birthdate: Date;
+  birthdate: Date;
 
   @Column({ default: 0 })
-  public mileage: number;
+  mileage: number;
 
   @Column({ type: "bool", default: false })
-  public agreedToMarketingMsgs: boolean;
+  agreedToMarketingMsgs: boolean;
+
+  @Column()
+  address: string;
 
   @CreateDateColumn()
-  public createdAt: Date;
+  createdAt: Date;
 
-  @OneToOne(type => Address, address => address.user, { cascade: true })
-  public address: Address;
+  // @OneToOne(type => Address, address => address.user, { cascade: true })
+  // public address: Address;
 }

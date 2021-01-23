@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Category } from "./Category";
 
 @Entity()
@@ -11,9 +11,6 @@ export class Product {
 
   @Column()
   price: number;
-
-  @Column({ type: "varchar", length: 400 })
-  productImage: string;
 
   @Column()
   discountOption: string;
@@ -30,7 +27,10 @@ export class Product {
   @Column()
   isTaxed: boolean;
 
+  @Column("simple-array")
+  productImages: string[];
+
   @ManyToMany(type => Category, category => category.products)
-  @JoinTable({ name: "product_category" })
+  @JoinTable({ name: "product_x_category" })
   categories: Category[];
 }

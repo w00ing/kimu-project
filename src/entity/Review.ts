@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Review {
@@ -10,4 +10,10 @@ export class Review {
 
   @Column()
   content: string;
+
+  @Column("simple-array")
+  reviewImages: string[];
+
+  //   @OneToMany(type => ReviewImage, reviewImage => reviewImage.review)
+  //   reviewImages: ReviewImage[];
 }
