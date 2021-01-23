@@ -1,4 +1,5 @@
-import { PrimaryGeneratedColumn, Column, Entity } from "typeorm";
+import { PrimaryGeneratedColumn, Column, Entity, ManyToMany } from "typeorm";
+import { User } from "./User";
 
 @Entity()
 export class Coupon {
@@ -15,5 +16,8 @@ export class Coupon {
   minimumPurchaseAmount: number;
 
   @Column({ type: "datetime" })
-  expiration: Date;
+  expirationDate: Date;
+
+  @ManyToMany(type => User, user => user.coupons)
+  user: User;
 }

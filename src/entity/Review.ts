@@ -13,7 +13,4 @@ export class Review {
 
   @Column("simple-array")
   reviewImages: string[];
-
-  //   @OneToMany(type => ReviewImage, reviewImage => reviewImage.review)
-  //   reviewImages: ReviewImage[];
 }
