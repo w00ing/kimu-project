@@ -1,5 +1,6 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Category } from "./Category";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Order } from "./Order";
+import { Category, Subcategory, Topic } from "./ProductClassification";
 import { User } from "./User";
 
 @Entity()
@@ -31,11 +32,17 @@ export class Product {
   @Column({ type: "datetime", nullable: true })
   discountEndDateTime: Date;
 
-  // Category options
-  // TODO: Subcategories & Topic
-  @ManyToMany(type => Category, category => category.products)
+  // Category & Subcategory
+  @ManyToOne(type => Category, category => category.products)
+  category: Category;
+
+  @ManyToOne(type => Subcategory, subcategory => subcategory.products)
+  subcategory: Subcategory;
+
+  // Topic
+  @ManyToMany(type => Topic, topic => topic.products)
   @JoinTable()
-  categories: Category[];
+  topics: Topic[];
 
   // Shipping options
   @Column({ default: 0 })
@@ -55,10 +62,11 @@ export class Product {
   @Column()
   isTaxed: boolean;
 
-  // Cart and Order
+  // Cart
   @ManyToMany(type => User, user => user.productsInCart)
   usersWhoPutThisInCart: User[];
 
-  @ManyToMany(type => User, user => user.productsOrdered)
-  usersWhoOrderedThis: User[];
+  // Orders
+  @ManyToMany(type => Order, order => order.product)
+  orders: Order[];
 }

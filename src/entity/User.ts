@@ -5,11 +5,13 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Coupon } from "./Coupon";
 import { SocialIssue } from "./SocialIssue";
 import { Product } from "./Product";
+import { Order } from "./Order";
 
 @Entity()
 export class User {
@@ -44,19 +46,22 @@ export class User {
   @CreateDateColumn()
   createdAt: Date;
 
+  // Social Issues
   @ManyToMany(type => SocialIssue, socialIssue => socialIssue.user)
   @JoinTable()
   socialIssues: SocialIssue[];
 
+  // Coupons
   @ManyToMany(type => Coupon, coupon => coupon.user)
   @JoinTable()
   coupons: Coupon[];
 
+  // Carts
   @ManyToMany(type => Product, product => product.usersWhoPutThisInCart)
   @JoinTable()
   productsInCart: Product[];
 
-  @ManyToMany(type => Product, product => product.usersWhoOrderedThis)
-  @JoinTable()
-  productsOrdered: Product[];
+  // Orders
+  @OneToMany(type => Order, order => order.user)
+  orders: Order[];
 }

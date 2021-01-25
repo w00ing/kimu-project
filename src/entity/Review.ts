@@ -1,9 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToOne, PrimaryColumn } from "typeorm";
+import { Order } from "./Order";
 
 @Entity()
 export class Review {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  orderId: number;
 
   @Column({ type: "decimal", precision: 2, scale: 1 })
   stars: number;
@@ -11,6 +12,18 @@ export class Review {
   @Column()
   content: string;
 
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @Column({ default: false })
+  isApproved: boolean;
+
+  @Column({ type: "date", nullable: true })
+  approvedAt: Date;
+
   @Column("simple-array")
   reviewImages: string[];
+
+  @OneToOne(type => Order, order => order.review)
+  order: Order;
 }

@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Column, Entity, ManyToMany } from "typeorm";
+import { PrimaryGeneratedColumn, Column, Entity, ManyToMany, Generated } from "typeorm";
 import { User } from "./User";
 
 @Entity()
@@ -10,10 +10,23 @@ export class Coupon {
   name: string;
 
   @Column()
-  discountAmount: number;
+  @Generated("uuid")
+  code: string;
+
+  @Column({ nullable: true })
+  target: string;
 
   @Column()
-  minimumPurchaseAmount: number;
+  content: string;
+
+  @Column({ nullable: true })
+  discountAmount: number;
+
+  @Column({ nullable: true })
+  discountRate: number;
+
+  @Column()
+  minimumOrderAmount: number;
 
   @Column({ type: "datetime" })
   expirationDate: Date;
