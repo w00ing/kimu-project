@@ -27,3 +27,39 @@ export class CreateUserDto {
   //   @IsBoolean()
   //   agreedToMarketingMsgs: boolean;
 }
+
+export class LoginUserDto {
+  @IsString()
+  email: string;
+
+  @IsString()
+  password: string;
+}
+
+export class UpdateUserInfoDto {
+  @IsString()
+  name: string;
+
+  @IsString()
+  email: string;
+
+  @IsString()
+  address: string;
+
+  @IsDate()
+  @Type(type => Date)
+  birthdate: Date;
+
+  //   @IsArray()
+  //   socialIssueNames: string[];
+}
+
+export class UpdateUserPasswordDto {
+  @IsString()
+  password: string;
+}
+
+export class UpdateUserSocialIssuesDto {
+  @IsArray()
+  socialIssueNames: string[];
+}

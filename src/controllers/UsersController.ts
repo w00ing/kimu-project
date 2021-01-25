@@ -10,9 +10,16 @@ import bcrypt from "bcrypt";
 import JwtModule from "../modules/JwtModule";
 import { TokenData } from "../interfaces/TokenData";
 import WrongCredentialsException from "../exceptions/WrongCredentialsException";
-import { CreateUserDto } from "src/dto/userDto";
+import {
+  CreateUserDto,
+  LoginUserDto,
+  UpdateUserInfoDto,
+  UpdateUserPasswordDto,
+  UpdateUserSocialIssuesDto,
+} from "src/dto/userDto";
 import { SocialIssue } from "../entity/SocialIssue";
 import NoSuchSocialIssueException from "src/exceptions/NoSuchSocialIssueException";
+import RequestWithUser from "../interfaces/requestWithUser";
 
 class UsersController extends BaseController {
   private userRepo = getRepository(User);
@@ -30,7 +37,6 @@ class UsersController extends BaseController {
     try {
       // Handle exceptions
       const socialIssues = await this.getSocialIssues(socialIssueNames);
-      console.log("result", socialIssues);
       if (!socialIssues) {
         return next(new NoSuchSocialIssueException());
       }
@@ -63,20 +69,21 @@ class UsersController extends BaseController {
   // Login
   public login = async (req: Request, res: Response, next: NextFunction) => {
     logging.info(this.NAMESPACE, "Login");
-    const { email, password } = req.body;
+    const userData: LoginUserDto = req.body;
     try {
-      const user = await this.findByEmail(email);
+      const user = await this.findByEmail(userData.email);
       console.log(user);
-      if (user) {
-        const isPasswordMatching = await bcrypt.compare(password, user.password);
-        if (isPasswordMatching) {
-          user.password = undefined;
-          const tokenData: TokenData = this.jwt.createToken(user);
-          res.setHeader("Set-Cookie", [this.createCookieWithJwtToken(tokenData)]);
-          this.OK(res, responseMessage.LOGIN_SUCCESS, user);
-        } else {
-          next(new WrongCredentialsException());
-        }
+      if (!user) {
+        return next(new WrongCredentialsException());
+      }
+      const isPasswordMatching = await bcrypt.compare(userData.password, user.password);
+      if (isPasswordMatching) {
+        user.password = undefined;
+        const tokenData: TokenData = this.jwt.createToken(user);
+        res.setHeader("Set-Cookie", [this.createCookieWithJwtToken(tokenData)]);
+        this.OK(res, responseMessage.LOGIN_SUCCESS, user);
+      } else {
+        return next(new WrongCredentialsException());
       }
     } catch (e) {
       console.log(e);
@@ -98,6 +105,72 @@ class UsersController extends BaseController {
     try {
       const users = await this.userRepo.find();
       this.OK(res, responseMessage.GET_ALL_USERS_SUCCESS, users);
+    } catch (e) {
+      console.log(e);
+      next(new InternalServerException());
+    }
+  };
+
+  // Update Password
+  public updateUserPassword = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    logging.info(this.NAMESPACE, `Change password`);
+
+    const { user } = req;
+    const passwordData: UpdateUserPasswordDto = req.body;
+    try {
+      const hashedPassword = await bcrypt.hash(passwordData.password, 10);
+      await this.userRepo.update(user.id, { password: hashedPassword });
+      user.password = undefined;
+      this.OK(res, responseMessage.UPDATE_USER_PASSWORD_SUCCESS, user);
+    } catch (e) {
+      console.log(e);
+      next(new InternalServerException());
+    }
+  };
+
+  // Update User Info
+  public updateUserInfo = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    logging.info(this.NAMESPACE, `Change User Info`);
+
+    const { user } = req;
+    console.log(user);
+    const updateUserInfoDto: UpdateUserInfoDto = req.body;
+    // const { socialIssueNames, ...userData } = updateUserInfoDto;
+    try {
+      // const socialIssues = await this.getSocialIssues(socialIssueNames);
+      // if (!socialIssues) {
+      //   return next(new NoSuchSocialIssueException());
+      // }
+      await this.userRepo.update(user.id, { ...updateUserInfoDto });
+      const updatedUser = await this.userRepo.findOne(user.id);
+      this.OK(res, responseMessage.UPDATE_USER_INFO_SUCCESS, updatedUser);
+    } catch (e) {
+      console.log(e);
+      next(new InternalServerException());
+    }
+  };
+
+  // Update User Social Issues
+  public updateUserSocialIssues = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    logging.info(this.NAMESPACE, `Change Social Issues of User`);
+
+    const { user } = req;
+    console.log("userl", user);
+    const updateUserSocialIssuesDto: UpdateUserSocialIssuesDto = req.body;
+    try {
+      const socialIssues = await this.getSocialIssues(updateUserSocialIssuesDto.socialIssueNames);
+      console.log("Got social issues");
+      if (!socialIssues) {
+        return next(new NoSuchSocialIssueException());
+      }
+      user.socialIssues = socialIssues;
+      await this.userRepo.save(user);
+      user.password = undefined;
+      this.OK(res, responseMessage.UPDATE_USER_SOCIAL_ISSUES_SUCCESS, user);
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
@@ -132,7 +205,6 @@ class UsersController extends BaseController {
 
   private findByEmail = async (email: string) => {
     const result = await this.userRepo.findOne({ email });
-    console.log(result);
     return result;
   };
 }

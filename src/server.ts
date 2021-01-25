@@ -6,13 +6,13 @@ import ormconfig from "./config/ormconfig";
 
 validateEnv();
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: User;
-    }
-  }
-}
+// declare global {
+//   namespace Express {
+//     interface Request {
+//       user?: User;
+//     }
+//   }
+// }
 
 const app = new App(ormconfig, Number(serverConfig.server.port));
 app.listen();
