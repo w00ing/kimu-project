@@ -9,9 +9,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "esModuleInterop": true,
-    "types": ["node"]
-  }
-  // "exclude": ["**/node_modules/aws-sdk/**"]
+    "paths": {
+      "src/*": ["src/*"]
+    }
+  },
+  "exclude": ["node_modules"]
 }

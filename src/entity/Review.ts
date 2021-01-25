@@ -1,10 +1,17 @@
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Order } from "./Order";
 
 @Entity()
 export class Review {
-  @PrimaryColumn()
-  orderId: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ type: "decimal", precision: 2, scale: 1 })
   stars: number;
@@ -25,5 +32,6 @@ export class Review {
   reviewImages: string[];
 
   @OneToOne(type => Order, order => order.review)
+  @JoinColumn()
   order: Order;
 }

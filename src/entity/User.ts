@@ -24,7 +24,10 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column("text")
+  @Column()
+  gender: string;
+
+  @Column({ type: "text", nullable: true })
   address: string;
 
   @Column()
@@ -40,14 +43,14 @@ export class User {
   @Column({ default: 0 })
   mileage: number;
 
-  @Column({ type: "bool", default: false })
-  agreedToMarketingMsgs: boolean;
+  // @Column({ type: "bool", default: false })
+  // agreedToMarketingMsgs: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: "timestamp" })
   createdAt: Date;
 
   // Social Issues
-  @ManyToMany(type => SocialIssue, socialIssue => socialIssue.user)
+  @ManyToMany(type => SocialIssue, socialIssue => socialIssue.user, { cascade: true })
   @JoinTable()
   socialIssues: SocialIssue[];
 

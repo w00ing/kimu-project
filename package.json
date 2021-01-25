@@ -32,11 +32,12 @@
     "mysql": "^2.14.1",
     "prettier": "^2.2.1",
     "reflect-metadata": "^0.1.10",
+    "tsconfig-paths": "^3.9.0",
     "typeorm": "0.2.30",
     "typeorm-naming-strategies": "^2.0.0"
   },
   "scripts": {
-    "start": "nodemon --exec ts-node src/server.ts",
+    "start": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts",
     "build": "rm -rf build/ && tsc"
   }
 }

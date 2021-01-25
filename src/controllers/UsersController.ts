@@ -10,41 +10,47 @@ import bcrypt from "bcrypt";
 import JwtModule from "../modules/JwtModule";
 import { TokenData } from "../interfaces/TokenData";
 import WrongCredentialsException from "../exceptions/WrongCredentialsException";
+import { CreateUserDto } from "src/dto/userDto";
+import { SocialIssue } from "../entity/SocialIssue";
+import NoSuchSocialIssueException from "src/exceptions/NoSuchSocialIssueException";
 
 class UsersController extends BaseController {
   private userRepo = getRepository(User);
+  private socialIssueRepo = getRepository(SocialIssue);
   private NAMESPACE = "Users Controller";
   private jwt = new JwtModule();
 
+  // TODO: 전화번호 인증
+  // Create User
   public createUser = async (req: Request, res: Response, next: NextFunction) => {
     logging.info(this.NAMESPACE, `Create a user`);
 
-    const {
-      email,
-      name,
-      password,
-      address,
-      phoneNumber,
-      birthdate,
-      agreedToMarketingMsgs,
-    } = req.body;
+    const createUserDto: CreateUserDto = req.body;
+    const { socialIssueNames, ...userData } = createUserDto;
     try {
-      const alreadyUser = await this.findByEmail(email);
-      if (alreadyUser) {
-        next(new ConflictException(responseMessage.ALREADY_USER));
+      // Handle exceptions
+      const socialIssues = await this.getSocialIssues(socialIssueNames);
+      console.log("result", socialIssues);
+      if (!socialIssues) {
+        return next(new NoSuchSocialIssueException());
       }
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const alreadyUser = await this.findByEmail(userData.email);
+      if (alreadyUser) {
+        return next(new ConflictException(responseMessage.ALREADY_USER));
+      }
+
+      // Create User
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
       const user = this.userRepo.create({
-        email,
-        name,
+        ...userData,
+        socialIssues,
         password: hashedPassword,
-        address,
-        phoneNumber,
-        birthdate,
-        agreedToMarketingMsgs,
       });
+      console.log("user", user);
       await this.userRepo.save(user);
       user.password = undefined;
+
+      // Get Token and add it to Cookie
       const tokenData: TokenData = this.jwt.createToken(user);
       res.setHeader("Set-Cookie", [this.createCookieWithJwtToken(tokenData)]);
       this.OK(res, responseMessage.CREATE_USER_SUCCESS, user);
@@ -54,11 +60,13 @@ class UsersController extends BaseController {
     }
   };
 
+  // Login
   public login = async (req: Request, res: Response, next: NextFunction) => {
     logging.info(this.NAMESPACE, "Login");
     const { email, password } = req.body;
     try {
       const user = await this.findByEmail(email);
+      console.log(user);
       if (user) {
         const isPasswordMatching = await bcrypt.compare(password, user.password);
         if (isPasswordMatching) {
@@ -76,12 +84,14 @@ class UsersController extends BaseController {
     }
   };
 
+  // Logout
   public logout = (req: Request, res: Response, next: NextFunction) => {
     logging.info(this.NAMESPACE, "Logout");
     res.setHeader("Set-Cookie", [this.getCookieForLogOut()]);
     this.OK(res, responseMessage.LOGOUT_SUCCESS);
   };
 
+  // Get All Users
   public getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     logging.info(this.NAMESPACE, `Get all users`);
 
@@ -103,8 +113,27 @@ class UsersController extends BaseController {
     return `Authorization=; HttpOnly; Path=/; Max-age=0`;
   }
 
+  private async getSocialIssues(socialIssueNames: string[]) {
+    const socialIssues = [];
+    for (let i = 0; i < socialIssueNames.length; i++) {
+      try {
+        const socialIssue = await this.socialIssueRepo.findOneOrFail({
+          where: { name: socialIssueNames[i] },
+        });
+        socialIssues.push(socialIssue);
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
+    }
+    console.log(socialIssues);
+    return socialIssues;
+  }
+
   private findByEmail = async (email: string) => {
-    return await this.userRepo.findOneOrFail({ email });
+    const result = await this.userRepo.findOne({ email });
+    console.log(result);
+    return result;
   };
 }
 

@@ -69,27 +69,8 @@ const responseMessage = {
   UPDATE_ADMIN_PASSWORD_SUCCESS: "관리자 비밀번호 변경 성공",
   DELETE_ADMIN_FAIL: "해당 아이디를 가진 관리자가 없습니다.",
 
-  // 섹션
-  CREATE_SECTION_SUCCESS: "섹션 생성 성공",
-  ALREADY_SECTION: "이미 있는 섹션입니다",
-  CREATE_SECTION_FAIL: "섹션 생성 실패",
-  GET_ALL_SECTIONS_SUCCESS: "모든 섹션 조회 성공",
-  GET_ALL_SECTIONS_FAIL: "모든 섹션 조회 실패",
-  GET_ONE_SECTION_SUCCESS: "섹션 조회 성공",
-  GET_ONE_SECTION_FAIL: "섹션 조회 실패",
-  UPDATE_SECTION_SUCCESS: "섹션 수정 성공",
-  SAME_SECTION_TITLE: "기존 제목과 동일합니다.",
-  ALREADY_SECTION_TITLE: "해당 제목을 가진 섹션이 존재합니다",
-  DELETE_SECTION_SUCCESS: "섹션 삭제 성공",
-  DELETE_SECTION_FAIL: "섹션 삭제 실패",
-
-  // 섹션 & 비디오
-  GET_ONE_VIDEO_FAIL: "동영상 조회 실패",
-  ADD_VIDEO_TO_SECTION_SUCCESS: "해당 섹션에 해당 영상 추가 성공",
-  REMOVE_VIDEO_FROM_SECTION_SUCCESS: "해당 섹션에서 해당 영상 제거 성공",
-  GET_VIDEOS_OF_SECTION_SUCCESS: "해당 섹션의 영상 조회 성공",
-  DUPLICATE_VIDEO_IN_THE_SECTION: "이 섹션에 해당 영상이 이미 있습니다",
-  NO_SUCH_VIDEO_IN_THE_SECTION: "이 섹션에 해당 영상이 없습니다",
+  // 사회 이슈
+  NO_SUCH_SOCIAL_ISSUE: "해당하는 사회 이슈가 없습니다.",
 
   /* 서버에러 */
   INTERNAL_SERVER_ERROR: "서버 내부 오류",
