@@ -20,13 +20,13 @@ export class Coupon {
   content: string;
 
   @Column({ nullable: true })
-  discountAmount: number;
+  discountAmount: string;
 
   @Column({ nullable: true })
-  discountRate: number;
+  discountRate: string;
 
   @Column()
-  minimumOrderAmount: number;
+  minimumOrderAmount: string;
 
   @Column({ type: "datetime" })
   expirationDate: Date;

@@ -12,6 +12,7 @@ import { Coupon } from "./Coupon";
 import { SocialIssue } from "./SocialIssue";
 import { Product } from "./Product";
 import { Order } from "./Order";
+import { Cart } from "./Cart";
 
 @Entity()
 export class User {
@@ -60,9 +61,8 @@ export class User {
   coupons: Coupon[];
 
   // Carts
-  @ManyToMany(type => Product, product => product.usersWhoPutThisInCart)
-  @JoinTable()
-  productsInCart: Product[];
+  @OneToMany(type => Cart, cart => cart.user)
+  carts: Cart[];
 
   // Orders
   @OneToMany(type => Order, order => order.user)

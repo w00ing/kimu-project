@@ -1,6 +1,16 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Cart } from "./Cart";
 import { Order } from "./Order";
 import { Category, Subcategory, Topic } from "./ProductClassification";
+import { ProductOption } from "./ProductOption";
 import { User } from "./User";
 
 @Entity()
@@ -14,9 +24,9 @@ export class Product {
   name: string;
 
   @Column()
-  price: number;
+  price: string;
 
-  @Column("simple-array")
+  @Column({ type: "simple-array", nullable: true })
   productImages: string[];
 
   // Discount options
@@ -24,7 +34,7 @@ export class Product {
   isDiscounted: boolean;
 
   @Column({ default: 0 })
-  discountAmount: number;
+  discountAmount: string;
 
   @Column({ type: "datetime", nullable: true })
   discountStartDateTime: Date;
@@ -33,8 +43,8 @@ export class Product {
   discountEndDateTime: Date;
 
   // Category & Subcategory
-  @ManyToOne(type => Category, category => category.products)
-  category: Category;
+  // @ManyToOne(type => Category, category => category.products)
+  // category: Category;
 
   @ManyToOne(type => Subcategory, subcategory => subcategory.products)
   subcategory: Subcategory;
@@ -46,25 +56,29 @@ export class Product {
 
   // Shipping options
   @Column({ default: 0 })
-  shippingCost: number;
+  shippingCost: string;
 
   @Column()
   group: string;
 
   // Can I buy this product?
-  @Column()
+  @Column({ default: true })
   isAvailable: boolean;
 
-  @Column()
-  quantityAvailable: number;
+  @Column({ default: 0 })
+  quantityAvailable: string;
 
   // Tax options
-  @Column()
+  @Column({ default: true })
   isTaxed: boolean;
 
+  // Product Options
+  @OneToMany(type => ProductOption, productOption => productOption.product)
+  productOptions: ProductOption[];
+
   // Cart
-  @ManyToMany(type => User, user => user.productsInCart)
-  usersWhoPutThisInCart: User[];
+  @OneToMany(type => Cart, cart => cart.product)
+  carts: Cart[];
 
   // Orders
   @ManyToMany(type => Order, order => order.product)

@@ -32,6 +32,6 @@ export class Review {
   reviewImages: string[];
 
   @OneToOne(type => Order, order => order.review)
-  @JoinColumn()
+  @JoinColumn({ name: "orderId" })
   order: Order;
 }
