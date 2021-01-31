@@ -9,20 +9,19 @@ export default class CreateOrders implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
     const userRepo = getRepository(User);
     const productRepo = getRepository(Product);
+    const orderRepo = getRepository(Order);
 
     const users = await userRepo.find();
     const products = await productRepo.find();
 
-    await factory(Order)()
-      .map(
-        async (order: Order): Promise<Order> => {
-          const user = Faker.random.arrayElement(users);
-          const product = Faker.random.arrayElement(products);
-          order.user = user;
-          order.product = product;
-          return order;
-        },
-      )
-      .createMany(20);
+    for (let i = 0; i < 20; i++) {
+      const user = Faker.random.arrayElement(users);
+      const product = Faker.random.arrayElement(products);
+      const alreadyOrder = await orderRepo.findOne({ user, product });
+      if (alreadyOrder) {
+        continue;
+      }
+      await factory(Order)().create({ user, product });
+    }
   }
 }

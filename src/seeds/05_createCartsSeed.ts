@@ -9,20 +9,19 @@ export default class CreateCarts implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
     const userRepo = getRepository(User);
     const productRepo = getRepository(Product);
+    const cartRepo = getRepository(Cart);
 
     const users = await userRepo.find();
     const products = await productRepo.find();
 
-    await factory(Cart)()
-      .map(
-        async (cart: Cart): Promise<Cart> => {
-          const user = Faker.random.arrayElement(users);
-          const product = Faker.random.arrayElement(products);
-          cart.user = user;
-          cart.product = product;
-          return cart;
-        },
-      )
-      .createMany(20);
+    for (let i = 0; i < 20; i++) {
+      const user = Faker.random.arrayElement(users);
+      const product = Faker.random.arrayElement(products);
+      const alreadyCart = await cartRepo.findOne({ user, product });
+      if (alreadyCart) {
+        continue;
+      }
+      await factory(Cart)().create({ user, product });
+    }
   }
 }
