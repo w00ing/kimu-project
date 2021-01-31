@@ -18,7 +18,7 @@ import {
   UpdateUserSocialIssuesDto,
 } from "src/dto/userDto";
 import { SocialIssue } from "../entity/SocialIssue";
-import NoSuchSocialIssueException from "src/exceptions/NoSuchSocialIssueException";
+import NoSuchDataException from "src/exceptions/NoSuchDataException";
 import RequestWithUser from "../interfaces/requestWithUser";
 
 class UsersController extends BaseController {
@@ -38,7 +38,7 @@ class UsersController extends BaseController {
       // Handle exceptions
       const socialIssues = await this.getSocialIssues(socialIssueNames);
       if (!socialIssues) {
-        return next(new NoSuchSocialIssueException());
+        return next(new NoSuchDataException(responseMessage.NO_SUCH_SOCIAL_ISSUE));
       }
       const alreadyUser = await this.findByEmail(userData.email);
       if (alreadyUser) {
@@ -165,7 +165,7 @@ class UsersController extends BaseController {
       const socialIssues = await this.getSocialIssues(updateUserSocialIssuesDto.socialIssueNames);
       console.log("Got social issues");
       if (!socialIssues) {
-        return next(new NoSuchSocialIssueException());
+        return next(new NoSuchDataException(responseMessage.NO_SUCH_SOCIAL_ISSUE));
       }
       user.socialIssues = socialIssues;
       await this.userRepo.save(user);

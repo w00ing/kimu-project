@@ -5,4 +5,6 @@ const productController = new ProductController();
 
 productRouter.get("/", productController.getAllProducts);
 
+productRouter.get("/subcategory/:subcategoryId", productController.getSubcategoryProducts);
+
 export default productRouter;
