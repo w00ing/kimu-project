@@ -2,7 +2,6 @@ import Faker from "faker";
 import { getRepository } from "typeorm";
 import { define } from "typeorm-seeding";
 import { Category, Subcategory, Topic } from "src/entity/ProductClassification";
-import { Product } from "src/entity/Product";
 
 define(Category, (faker: typeof Faker) => {
   const categoryRepo = getRepository(Category);

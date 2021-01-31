@@ -26,6 +26,9 @@ export class Order {
   @Column({ nullable: true })
   claimStatus: string;
 
+  @Column({ nullable: true })
+  orderRequest: string;
+
   // User
   @ManyToOne(type => User, user => user.orders)
   user: User;
