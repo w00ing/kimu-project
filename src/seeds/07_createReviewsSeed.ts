@@ -19,11 +19,9 @@ export default class CreateReviews implements Seeder {
             const order = Faker.random.arrayElement(orders);
             const index = orders.indexOf(order);
             orders.splice(index, 1);
-            const user = await userRepo.findOne({ where: { id: order.userId } });
-            const product = await productRepo.findOne({ where: { id: order.productId } });
             review.order = order;
-            review.user = user;
-            review.product = product;
+            review.userId = order.userId;
+            review.productId = order.productId;
             return review;
           } catch (e) {
             console.log(e);

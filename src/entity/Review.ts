@@ -16,6 +16,12 @@ export class Review {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  userId: number;
+
+  @Column()
+  productId: number;
+
   @Column({ type: "decimal", precision: 2, scale: 1 })
   stars: number;
 
