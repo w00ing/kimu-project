@@ -7,12 +7,10 @@ import responseMessage from "src/modules/responseMessage";
 import { createQueryBuilder, getRepository } from "typeorm";
 import { BaseController } from "./BaseController";
 import NoSuchDataException from "src/exceptions/NoSuchDataException";
-import { Review } from "src/entity/Review";
 
 export class ProductController extends BaseController {
   private productRepo = getRepository(Product);
   private categoryRepo = getRepository(Category);
-  private reviewRepo = getRepository(Review);
   private subcategoryRepo = getRepository(Subcategory);
   private NAMESPACE = "Products Controller";
 
@@ -43,7 +41,6 @@ export class ProductController extends BaseController {
         .where("product.subcategory.id = :subcategoryId", { subcategoryId })
         .andWhere("topic.isUsed = :isUsed", { isUsed: true })
         .select([
-          "product.id",
           "product.productImages",
           "product.name",
           "product.price",
@@ -54,74 +51,6 @@ export class ProductController extends BaseController {
         ])
         .getMany();
       this.OK(res, responseMessage.GET_PRODUCTS_WITH_GIVEN_SUBCATEGORY_SUCCESS, products);
-    } catch (e) {
-      next(new InternalServerException());
-    }
-  };
-
-  public getProductDetail = async (req: Request, res: Response, next: NextFunction) => {
-    logging.info(this.NAMESPACE, "Get product Info");
-    const { productId } = req.params;
-    try {
-      const product = await this.productRepo.findOne({
-        where: { id: productId },
-        select: [
-          "id",
-          "productImages",
-          "name",
-          "price",
-          "isDiscounted",
-          "discountAmount",
-          "shippingCost",
-          "group",
-          "isAvailable",
-          "quantityAvailable",
-        ],
-        relations: ["productOptions", "productOptions.optionChoices"],
-      });
-      if (!product) {
-        return next(new NoSuchDataException(responseMessage.NO_SUCH_PRODUCT));
-      }
-      this.OK(res, responseMessage.GET_PRODUCT_DETAIL_SUCCESS, product);
-    } catch (e) {
-      next(new InternalServerException());
-    }
-  };
-
-  public getBundleProducts = async (req: Request, res: Response, next: NextFunction) => {
-    const { productId } = req.params;
-    const group = "a";
-    try {
-      const products = await this.productRepo
-        .createQueryBuilder("product")
-        .where("product.id != :productId", { productId })
-        .andWhere("product.group = :group", { group })
-        .select([
-          "product.id",
-          "product.productImages",
-          "product.name",
-          "product.price",
-          "product.isDiscounted",
-          "product.discountAmount",
-        ])
-        .getMany();
-      this.OK(res, responseMessage.GET_BUNDLE_PROUDCTS_SUCCESS, products);
-    } catch (e) {
-      next(new InternalServerException());
-    }
-  };
-
-  public getProductReviews = async (req: Request, res: Response, next: NextFunction) => {
-    const { productId } = req.params;
-    try {
-      // const product = await this.productRepo.findOne({where: {id: productId}})
-      // const order = await
-      const reviews = await this.reviewRepo
-        .createQueryBuilder("review")
-        .leftJoin("review.order", "order")
-        .where("order.productId = :productId", { productId })
-        .getMany();
-      this.OK(res, responseMessage.GET_PRODUCT_REVIEWS_SUCCESS, reviews);
     } catch (e) {
       next(new InternalServerException());
     }

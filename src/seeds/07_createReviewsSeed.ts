@@ -22,6 +22,6 @@ export default class CreateReviews implements Seeder {
           }
         },
       )
-      .createMany(200);
+      .createMany(12);
   }
 }

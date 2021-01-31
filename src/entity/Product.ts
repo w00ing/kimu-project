@@ -66,7 +66,7 @@ export class Product {
   isAvailable: boolean;
 
   @Column({ default: 0 })
-  quantityAvailable: number;
+  quantityAvailable: string;
 
   // Tax options
   @Column({ default: true })
