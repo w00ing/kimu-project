@@ -41,11 +41,12 @@ const responseMessage = {
   NO_SUCH_JOB: "해당 직군이 없습니다",
   ALREADY_ADDED_KEYWORD: "이미 추가된 관심사입니다.",
 
-  // 네이버
-  GET_PROFILE_NAVER_SUCCESS: "네아로 프로필 조회 성공",
-
-  // 워크스페이스
+  // 상품
+  GET_ALL_CATEGORIES_SUCCESS: "모든 카테고리 조회 성공",
   GET_ALL_PRODUCTS_SUCCESS: "모든 상품 조회 성공",
+  GET_PRODUCT_DETAIL_SUCCESS: "상품 상세정보 조회 성공.",
+  GET_PRODUCTS_WITH_GIVEN_SUBCATEGORY_SUCCESS: "해당 서브카테고리에 해당하는 상품들 조회 성공",
+  NO_SUCH_SUBCATEGORY: "해당하는 서브카테고리가 없습니다.",
 
   // 관리자
   NOT_ADMIN: "관리자가 아닙니다.",
