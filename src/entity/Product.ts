@@ -11,6 +11,7 @@ import { Cart } from "./Cart";
 import { Order } from "./Order";
 import { Category, Subcategory, Topic } from "./ProductClassification";
 import { ProductOption } from "./ProductOption";
+import { Review } from "./Review";
 import { User } from "./User";
 
 @Entity()
@@ -75,6 +76,10 @@ export class Product {
   // Product Options
   @OneToMany(type => ProductOption, productOption => productOption.product)
   productOptions: ProductOption[];
+
+  // Reviews
+  @OneToMany(type => Review, review => review.product)
+  reviews: Review[];
 
   // Cart
   @OneToMany(type => Cart, cart => cart.product)
