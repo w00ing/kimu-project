@@ -7,10 +7,10 @@
 
 
 ## 언어
-Typescript 4.1.3
-ts-node 9.1.1
-nodejs 12.18.3
-npm 7.3.0
+ - Typescript 4.1.3
+ - ts-node 9.1.1
+ - nodejs 12.18.3
+ - npm 7.3.0
 
 ## 구성
 express.js 기반으로 작성됨
