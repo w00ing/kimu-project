@@ -23,7 +23,7 @@ define(Product, (faker: typeof Faker) => {
   const shippingCost = faker.finance.amount(1000, 50000, 0, "₩");
   const group = faker.random.arrayElement(groups);
   const isAvailable = faker.random.boolean();
-  const quantityAvailable = faker.finance.amount(1, 100, 0);
+  const quantityAvailable = faker.random.number(100);
   const isTaxed = faker.random.boolean();
 
   // ProductOptions, cart, orders
@@ -33,13 +33,13 @@ define(Product, (faker: typeof Faker) => {
     price,
     productImages,
     isDiscounted,
-    discountAmount,
+    discountAmount: isDiscounted ? discountAmount : "0",
     discountStartDateTime,
     discountEndDateTime,
     shippingCost,
     group,
     isAvailable,
-    quantityAvailable,
+    quantityAvailable: isAvailable ? quantityAvailable : 0,
     isTaxed,
   });
 
