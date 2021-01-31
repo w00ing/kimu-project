@@ -45,8 +45,13 @@ const responseMessage = {
   GET_ALL_CATEGORIES_SUCCESS: "모든 카테고리 조회 성공",
   GET_ALL_PRODUCTS_SUCCESS: "모든 상품 조회 성공",
   GET_PRODUCT_DETAIL_SUCCESS: "상품 상세정보 조회 성공.",
+  NO_SUCH_PRODUCT: "해당 상품이 없습니다.",
   GET_PRODUCTS_WITH_GIVEN_SUBCATEGORY_SUCCESS: "해당 서브카테고리에 해당하는 상품들 조회 성공",
   NO_SUCH_SUBCATEGORY: "해당하는 서브카테고리가 없습니다.",
+  GET_BUNDLE_PROUDCTS_SUCCESS: "묶음배송 상품 조회 성공.",
+
+  // 리뷰
+  GET_PRODUCT_REVIEWS_SUCCESS: "해당 상품의 리뷰 조회 성공",
 
   // 관리자
   NOT_ADMIN: "관리자가 아닙니다.",

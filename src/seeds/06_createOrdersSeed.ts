@@ -14,7 +14,7 @@ export default class CreateOrders implements Seeder {
     const users = await userRepo.find();
     const products = await productRepo.find();
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 250; i++) {
       const user = Faker.random.arrayElement(users);
       const product = Faker.random.arrayElement(products);
       const alreadyOrder = await orderRepo.findOne({ user, product });
