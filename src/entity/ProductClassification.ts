@@ -26,6 +26,9 @@ export class Subcategory extends ProductClassification {
   @ManyToOne(type => Category, category => category.subcategories)
   category: Category;
 
+  @Column({ nullable: true })
+  productCount: number;
+
   @OneToMany(type => Product, product => product.subcategory)
   products: Product[];
 }
