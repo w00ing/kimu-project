@@ -7,6 +7,8 @@ productRouter.get("/", productController.getAllProducts);
 
 productRouter.get("/best", productController.getBestProducts);
 
+productRouter.post("/search", productController.searchProducts);
+
 productRouter.get("/:productId", productController.getProductDetail);
 
 productRouter.get("/:productId/bundle", productController.getBundleProducts);

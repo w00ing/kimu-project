@@ -160,4 +160,26 @@ export class ProductController extends BaseController {
       next(new InternalServerException());
     }
   };
+  public searchProducts = async (req: Request, res: Response, next: NextFunction) => {
+    logging.info(this.NAMESPACE, "Search Products");
+    const { searchTerm } = req.body;
+    try {
+      const products = await this.productRepo
+        .createQueryBuilder("product")
+        .where("product.name like :searchTerm", { searchTerm: `%${searchTerm}%` })
+        .select([
+          "product.id",
+          "product.name",
+          "product.productImages",
+          "product.price",
+          "product.isDiscounted",
+          "product.discountAmount",
+        ])
+        .getMany();
+      this.OK(res, responseMessage.SEARCH_PRODUCTS_SUCCESS, products);
+    } catch (e) {
+      console.log(e);
+      next(new InternalServerException());
+    }
+  };
 }

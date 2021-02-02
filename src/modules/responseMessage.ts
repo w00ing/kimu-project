@@ -50,6 +50,7 @@ const responseMessage = {
   GET_PRODUCTS_WITH_GIVEN_SUBCATEGORY_SUCCESS: "해당 서브카테고리에 해당하는 상품들 조회 성공",
   NO_SUCH_SUBCATEGORY: "해당하는 서브카테고리가 없습니다.",
   GET_BUNDLE_PRODUCTS_SUCCESS: "묶음배송 상품 조회 성공.",
+  SEARCH_PRODUCTS_SUCCESS: "상품 검색 성공",
 
   // 리뷰
   GET_PRODUCT_REVIEWS_SUCCESS: "해당 상품의 리뷰 조회 성공",
