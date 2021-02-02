@@ -30,7 +30,7 @@ const responseMessage = {
   GET_ALL_USERS_FAIL: "모든 유저 조회 실패",
   GET_ONE_USER_SUCCESS: "유저 조회 성공",
   GET_ONE_USER_FAIL: "유저 조회 실패",
-  GET_USER_PROFILE_SUCCESS: "유저 프로필 조회 성공",
+  GET_USER_INFO_SUCCESS: "유저 정보 조회 성공",
   UPDATE_USER_INFO_SUCCESS: "유저 정보 수정 성공",
   UPDATE_USER_PASSWORD_SUCCESS: "유저 비밀번호 수정 성공",
   UPDATE_USER_SOCIAL_ISSUES_SUCCESS: "유저 사회 이슈 정보 수정 성공",

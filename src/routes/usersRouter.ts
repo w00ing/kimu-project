@@ -49,9 +49,6 @@ usersRouter.put(
 // Get All Users
 usersRouter.get("/", usersController.getAllUsers);
 
-// Get User Profile by Email
-usersRouter.get("/");
-
 // Delete User
 usersRouter.get("/");
 

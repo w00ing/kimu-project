@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { getRepository } from "typeorm";
 import { BaseController } from "./BaseController";
-import { User } from "../entity/User";
 import logging from "../config/logging";
 import responseMessage from "../modules/responseMessage";
 import InternalServerException from "../exceptions/InternalServerException";
@@ -17,13 +15,10 @@ import {
   UpdateUserPasswordDto,
   UpdateUserSocialIssuesDto,
 } from "src/dto/userDto";
-import { SocialIssue } from "../entity/SocialIssue";
 import NoSuchDataException from "src/exceptions/NoSuchDataException";
 import RequestWithUser from "../interfaces/requestWithUser";
 
 class UsersController extends BaseController {
-  private userRepo = getRepository(User);
-  private socialIssueRepo = getRepository(SocialIssue);
   private NAMESPACE = "Users Controller";
   private jwt = new JwtModule();
 

@@ -1,20 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import logging from "src/config/logging";
-import { Product } from "src/entity/Product";
-import { Category, Subcategory } from "src/entity/ProductClassification";
 import { Order } from "src/entity/Order";
 import InternalServerException from "src/exceptions/InternalServerException";
 import responseMessage from "src/modules/responseMessage";
-import { createQueryBuilder, getRepository } from "typeorm";
 import { BaseController } from "./BaseController";
 import NoSuchDataException from "src/exceptions/NoSuchDataException";
-import { Review } from "src/entity/Review";
 
 export class ProductController extends BaseController {
-  private productRepo = getRepository(Product);
-  private categoryRepo = getRepository(Category);
-  private reviewRepo = getRepository(Review);
-  private subcategoryRepo = getRepository(Subcategory);
   private NAMESPACE = "Products Controller";
 
   public getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
