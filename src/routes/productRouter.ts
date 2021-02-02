@@ -15,6 +15,8 @@ productRouter.get("/:productId/bundle", productController.getBundleProducts);
 
 productRouter.get("/:productId/reviews", productController.getProductReviews);
 
+productRouter.get("/category/:categoryId", productController.getCategoryProducts);
+
 productRouter.get("/subcategory/:subcategoryId", productController.getSubcategoryProducts);
 
 export default productRouter;

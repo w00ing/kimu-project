@@ -14,7 +14,44 @@ export class ProductController extends BaseController {
 
     try {
       const [products, count] = await this.productRepo.findAndCount();
+
       this.OK(res, responseMessage.GET_ALL_PRODUCTS_SUCCESS, { count, products });
+      // this.OK(res, responseMessage.GET_ALL_PRODUCTS_SUCCESS, products)
+    } catch (e) {
+      next(new InternalServerException());
+    }
+  };
+
+  public getCategoryProducts = async (req: Request, res: Response, next: NextFunction) => {
+    const { categoryId } = req.params;
+    console.log(categoryId);
+    try {
+      const [products, productCount] = await this.productRepo
+        .createQueryBuilder("product")
+        .leftJoin("product.subcategory", "subcategory")
+        .leftJoin("product.topics", "topic")
+        .where("product.category.id = :categoryId", { categoryId })
+        .andWhere("topic.isUsed = :isUsed", { isUsed: true })
+        .select([
+          "product.id",
+          "product.productImages",
+          "product.name",
+          "product.price",
+          "product.isDiscounted",
+          "product.discountAmount",
+          "subcategory.id",
+          "subcategory.name",
+          "topic.name",
+          "topic.id",
+        ])
+        .getManyAndCount();
+      if (products.length === 0) {
+        return next(new NoSuchDataException(responseMessage.NO_SUCH_CATEGORY));
+      }
+      this.OK(res, responseMessage.GET_PRODUCTS_WITH_GIVEN_CATEGORY_SUCCESS, {
+        productCount,
+        products,
+      });
     } catch (e) {
       next(new InternalServerException());
     }

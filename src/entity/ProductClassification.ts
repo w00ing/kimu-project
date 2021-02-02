@@ -17,8 +17,8 @@ export class Category extends ProductClassification {
   @OneToMany(type => Subcategory, subcategory => subcategory.category)
   subcategories: Subcategory[];
 
-  // @OneToMany(type => Product, product => product.category)
-  // products: Product[];
+  @OneToMany(type => Product, product => product.category)
+  products: Product[];
 }
 
 @Entity()

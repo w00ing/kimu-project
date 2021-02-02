@@ -11,7 +11,7 @@ export default class CreateProducts implements Seeder {
     const topicRepo = getRepository(Topic);
     const subcategoryRepo = getRepository(Subcategory);
     const topicsArray = await topicRepo.find();
-    const subcategoriesArray = await subcategoryRepo.find();
+    const subcategoriesArray = await subcategoryRepo.find({ relations: ["category"] });
     await factory(Product)()
       .map(
         async (product: Product): Promise<Product> => {
@@ -27,6 +27,7 @@ export default class CreateProducts implements Seeder {
           const subcategory: Subcategory = getRandom(subcategoriesArray, 1)[0];
           product.topics = topics;
           product.subcategory = subcategory;
+          product.category = subcategory.category;
           return product;
         },
       )

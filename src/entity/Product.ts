@@ -43,9 +43,9 @@ export class Product {
   @Column({ type: "datetime", nullable: true })
   discountEndDateTime: Date;
 
-  // Category & Subcategory
-  // @ManyToOne(type => Category, category => category.products)
-  // category: Category;
+  // Category
+  @ManyToOne(type => Category, category => category.products)
+  category: Category;
 
   @ManyToOne(type => Subcategory, subcategory => subcategory.products)
   subcategory: Subcategory;
