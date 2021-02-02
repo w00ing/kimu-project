@@ -86,6 +86,6 @@ export class Product {
   carts: Cart[];
 
   // Orders
-  @ManyToMany(type => Order, order => order.product)
+  @OneToMany(type => Order, order => order.product)
   orders: Order[];
 }
