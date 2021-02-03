@@ -7,21 +7,33 @@ import { Category, Subcategory, Topic } from "src/entity/ProductClassification";
 import { Review } from "src/entity/Review";
 import { SocialIssue } from "src/entity/SocialIssue";
 import { User } from "src/entity/User";
-import { getRepository } from "typeorm";
+import { getRepository, Repository } from "typeorm";
 import statusCode from "../modules/statusCode";
 import util from "../modules/util";
 
 export abstract class BaseController {
-  public userRepo = getRepository(User);
-  public productRepo = getRepository(Product);
-  public categoryRepo = getRepository(Category);
-  public subcategoryRepo = getRepository(Subcategory);
-  public topicRepo = getRepository(Topic);
-  public orderRepo = getRepository(Order);
-  public cartRepo = getRepository(Cart);
-  public couponRepo = getRepository(Coupon);
-  public reviewRepo = getRepository(Review);
-  public socialIssueRepo = getRepository(SocialIssue);
+  userRepo: Repository<User>;
+  productRepo: Repository<Product>;
+  categoryRepo: Repository<Category>;
+  subcategoryRepo: Repository<Subcategory>;
+  topicRepo: Repository<Topic>;
+  orderRepo: Repository<Order>;
+  cartRepo: Repository<Cart>;
+  couponRepo: Repository<Coupon>;
+  reviewRepo: Repository<Review>;
+  socialIssueRepo: Repository<SocialIssue>;
+  constructor() {
+    this.userRepo = getRepository(User);
+    this.productRepo = getRepository(Product);
+    this.categoryRepo = getRepository(Category);
+    this.subcategoryRepo = getRepository(Subcategory);
+    this.topicRepo = getRepository(Topic);
+    this.orderRepo = getRepository(Order);
+    this.cartRepo = getRepository(Cart);
+    this.couponRepo = getRepository(Coupon);
+    this.reviewRepo = getRepository(Review);
+    this.socialIssueRepo = getRepository(SocialIssue);
+  }
 
   public OK<T>(res: Response, message: string, data?: T) {
     res.type("application/json");
