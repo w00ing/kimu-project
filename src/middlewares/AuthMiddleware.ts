@@ -15,21 +15,19 @@ class AuthMiddleware {
 
   public checkToken = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const cookies = req.cookies;
-    console.log(cookies);
+    // console.log(cookies);
     if (cookies && cookies.Authorization) {
       const token = cookies.Authorization;
-      console.log(token);
+      // console.log(token);
       try {
         const decodedToken = this.jwt.verify(token);
-        console.log(decodedToken);
+        // console.log(decodedToken);
         if (decodedToken === (this.TOKEN_EXPIRED || this.TOKEN_INVALID)) {
           return next(new WrongAuthenticationTokenException());
         }
         const id = decodedToken.id;
-        console.log("id", id);
-        const userInfo = await this.userRepo.findOne({ where: { id } });
+        const userInfo = await this.userRepo.findOneOrFail({ where: { id } });
         req.user = userInfo;
-        console.log(req.user);
         return next();
       } catch (e) {
         console.log(e);
