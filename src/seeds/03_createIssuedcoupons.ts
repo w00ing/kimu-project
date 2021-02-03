@@ -16,7 +16,7 @@ export default class CreateIssuedcoupons implements Seeder {
       if (alreadyIssuedcoupon) {
         continue;
       }
-      await factory(Issuedcoupon)().create({ user, coupon });
+      await factory(Issuedcoupon)().create({ user, coupon, code: coupon.code });
     }
   }
 }
