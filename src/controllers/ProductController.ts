@@ -5,6 +5,7 @@ import InternalServerException from "src/exceptions/InternalServerException";
 import responseMessage from "src/modules/responseMessage";
 import { BaseController } from "./BaseController";
 import NoSuchDataException from "src/exceptions/NoSuchDataException";
+import { OrderProduct } from "src/entity/OrderProduct";
 
 export class ProductController extends BaseController {
   private NAMESPACE = "Products Controller";
@@ -184,10 +185,10 @@ export class ProductController extends BaseController {
         .addSelect(subQuery => {
           return subQuery
             .select("COUNT(*)")
-            .from(Order, "order")
-            .where("order.productId=product.id");
-        }, "orderCount")
-        .orderBy("orderCount", "DESC")
+            .from(OrderProduct, "orderProduct")
+            .where("orderProduct.productId=product.id");
+        }, "orderProductCount")
+        .orderBy("orderProductCount", "DESC")
         .take(9)
         .getMany();
       // console.log(products);

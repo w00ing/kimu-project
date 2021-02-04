@@ -1,9 +1,5 @@
-import Faker from "faker";
-import { Order } from "src/entity/Order";
 import { OrderProduct } from "src/entity/OrderProduct";
-import { Product } from "src/entity/Product";
 import { Review } from "src/entity/Review";
-import { User } from "src/entity/User";
 import { Connection, getRepository } from "typeorm";
 import { Factory, Seeder } from "typeorm-seeding";
 
