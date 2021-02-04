@@ -14,10 +14,16 @@ export class Order {
   orderDateTime: Date;
 
   @Column({ default: "결제대기" })
-  orderStatus: string;
+  paymentStatus: string;
 
   @Column()
   receiverName: string;
+
+  @Column()
+  receiverAddress: string;
+
+  @Column()
+  receiverPhoneNumber: string;
 
   @Column({ nullable: true })
   claimStatus: string;
@@ -25,8 +31,20 @@ export class Order {
   @Column({ nullable: true })
   orderRequest: string;
 
+  @Column()
+  totalCouponDiscountAmount: number;
+
+  @Column()
+  totalMileageUsageAmount: number;
+
   @Column({ nullable: true })
   totalCost: number;
+
+  @Column({ nullable: true })
+  shippingCost: number;
+
+  @Column({ nullable: true })
+  shippingStatus: string;
 
   // User
   @ManyToOne(type => User, user => user.orders)

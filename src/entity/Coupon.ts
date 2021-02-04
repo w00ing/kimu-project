@@ -19,6 +19,9 @@ export class Coupon {
   @Generated("uuid")
   code: string;
 
+  @Column({ type: "datetime" })
+  expirationDate: Date;
+
   @Column({ nullable: true })
   discountAmount: string;
 

@@ -33,6 +33,9 @@ export class OrderProduct {
   @ManyToOne(type => Product, product => product.orderProducts)
   product: Product;
 
+  @Column()
+  orderProductOption: string;
+
   // Review
   @OneToOne(type => Review, review => review.orderProduct)
   review: Review;
