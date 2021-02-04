@@ -38,20 +38,17 @@ export class LoginUserDto {
 
 export class UpdateUserInfoDto {
   @IsString()
-  name: string;
-
-  @IsString()
-  email: string;
-
-  @IsString()
   address: string;
 
   @IsDate()
   @Type(type => Date)
   birthdate: Date;
 
-  //   @IsArray()
-  //   socialIssueNames: string[];
+  @IsString()
+  gender: string;
+
+  @IsArray()
+  socialIssueNames: string[];
 }
 
 export class UpdateUserPasswordDto {

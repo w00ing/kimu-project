@@ -17,6 +17,8 @@ import {
 } from "src/dto/userDto";
 import NoSuchDataException from "src/exceptions/NoSuchDataException";
 import RequestWithUser from "../interfaces/requestWithUser";
+import { User } from "src/entity/User";
+import { SocialIssue } from "src/entity/SocialIssue";
 
 class UsersController extends BaseController {
   private NAMESPACE = "Users Controller";
@@ -62,13 +64,12 @@ class UsersController extends BaseController {
   };
 
   // Login
-  // Make login with hashed version temporarily. Remove on production
+  // TODO: Make login with hashed version temporarily. Remove on production
   public login = async (req: Request, res: Response, next: NextFunction) => {
     logging.info(this.NAMESPACE, "Login");
     const userData: LoginUserDto = req.body;
     try {
       const user = await this.findByEmail(userData.email);
-      console.log(user);
       if (!user) {
         return next(new WrongCredentialsException());
       }
@@ -130,44 +131,23 @@ class UsersController extends BaseController {
     logging.info(this.NAMESPACE, `Change User Info`);
 
     const { user } = req;
-    console.log(user);
     const updateUserInfoDto: UpdateUserInfoDto = req.body;
-    // const { socialIssueNames, ...userData } = updateUserInfoDto;
+    const { socialIssueNames, ...updateData } = updateUserInfoDto;
     try {
-      // const socialIssues = await this.getSocialIssues(socialIssueNames);
-      // if (!socialIssues) {
-      //   return next(new NoSuchSocialIssueException());
-      // }
-      await this.userRepo.update(user.id, { ...updateUserInfoDto });
-      const updatedUser = await this.userRepo.findOne(user.id);
-      this.OK(res, responseMessage.UPDATE_USER_INFO_SUCCESS, updatedUser);
-    } catch (e) {
-      console.log(e);
-      next(new InternalServerException());
-    }
-  };
-
-  // Update User Social Issues
-  public updateUserSocialIssues = async (
-    req: RequestWithUser,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    logging.info(this.NAMESPACE, `Change Social Issues of User`);
-
-    const { user } = req;
-    console.log("userl", user);
-    const updateUserSocialIssuesDto: UpdateUserSocialIssuesDto = req.body;
-    try {
-      const socialIssues = await this.getSocialIssues(updateUserSocialIssuesDto.socialIssueNames);
-      console.log("Got social issues");
+      const socialIssues = await this.getSocialIssues(socialIssueNames);
       if (!socialIssues) {
         return next(new NoSuchDataException(responseMessage.NO_SUCH_SOCIAL_ISSUE));
       }
-      user.socialIssues = socialIssues;
-      await this.userRepo.save(user);
-      user.password = undefined;
-      this.OK(res, responseMessage.UPDATE_USER_SOCIAL_ISSUES_SUCCESS, user);
+      await this.userRepo
+        .createQueryBuilder()
+        .update(User)
+        .set(updateData)
+        .where("id = :userId", { userId: user.id })
+        .execute();
+      const updatedUser = await this.userRepo.findOne(user.id);
+      updatedUser.socialIssues = socialIssues;
+      await this.userRepo.save(updatedUser);
+      this.OK(res, responseMessage.UPDATE_USER_INFO_SUCCESS, updatedUser);
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
@@ -184,7 +164,7 @@ class UsersController extends BaseController {
   }
 
   private async getSocialIssues(socialIssueNames: string[]) {
-    const socialIssues = [];
+    const socialIssues: SocialIssue[] = [];
     for (let i = 0; i < socialIssueNames.length; i++) {
       try {
         const socialIssue = await this.socialIssueRepo.findOneOrFail({
@@ -196,7 +176,6 @@ class UsersController extends BaseController {
         return false;
       }
     }
-    console.log(socialIssues);
     return socialIssues;
   }
 

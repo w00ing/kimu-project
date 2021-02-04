@@ -30,7 +30,6 @@ const responseMessage = {
   GET_ALL_USERS_FAIL: "모든 유저 조회 실패",
   GET_ONE_USER_SUCCESS: "유저 조회 성공",
   GET_ONE_USER_FAIL: "유저 조회 실패",
-  GET_USER_INFO_SUCCESS: "유저 정보 조회 성공",
   UPDATE_USER_INFO_SUCCESS: "유저 정보 수정 성공",
   UPDATE_USER_PASSWORD_SUCCESS: "유저 비밀번호 수정 성공",
   UPDATE_USER_SOCIAL_ISSUES_SUCCESS: "유저 사회 이슈 정보 수정 성공",
@@ -40,6 +39,25 @@ const responseMessage = {
   NO_SUCH_KEYWORD: "해당 관심사가 없습니다",
   NO_SUCH_JOB: "해당 직군이 없습니다",
   ALREADY_ADDED_KEYWORD: "이미 추가된 관심사입니다.",
+
+  // 마이페이지
+  GET_MYPAGE_INFO_SUCCESS: "유저 정보 조회 성공",
+  MYPAGE_ISSUE_COUPON_SUCCESS: "마이페이지에서 쿠폰 발급 성공",
+  NO_SUCH_COUPON: "해당 코드를 갖고 있는 쿠폰이 없습니다",
+  ALREADY_ISSUED_COUPON_FOR_THIS_USER: "이 유저는 이미 해당 코드를 갖고 있는 쿠폰을 발급받았습니다",
+  GET_MYPAGE_COUPONS_INFO_SUCCESS: "마이페이지 쿠폰 정보 조회 성공",
+  GET_MYPAGE_MILEAGE_INFO_SUCCESS: "마이페이지 마일리지 정보 조회 성공",
+  GET_MYPAGE_ORDERS_INFO_SUCCESS: "마이페이지 주문 정보 조회 성공",
+  GET_MYPAGE_ORDER_DETAIL_SUCCESS: "마이페이지 주문 상세 조회 성공",
+  GET_MYPAGE_REVIEWS_INFO_SUCCESS: "마이페이지 리뷰 정보 조회 성공",
+  MYPAGE_WRITE_REVIEW_SUCCESS: "마이페이지에서 리뷰 작성 성공",
+  ALREADY_REVIEW: "해당 주문상품에 대해 이미 리뷰를 작성했습니다.",
+  GET_MYPAGE_ORDERPRODUCTS_WITHOUT_REVIEWS_SUCCESS:
+    "마이페이지에서 리뷰를 작성하지 않은 주문한 상품들 조회 성공",
+  NO_ISSUED_COUPONS: "보유한 쿠폰이 없습니다",
+  NO_ORDERS_OF_THIS_USER: "이 유저는 주문 내역이 없습니다",
+  NO_REVIEWS_OF_THIS_USER: "이 유저가 작성한 리뷰가 없습니다",
+  NO_ORDERED_PRODUCTS_WITHOUT_REVIEW: "리뷰를 작성하지 않은 주문한 상품이 없습니다.",
 
   // 상품
   GET_ALL_CATEGORIES_SUCCESS: "모든 카테고리 조회 성공",
