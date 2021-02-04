@@ -19,4 +19,16 @@ const multerProfileImage = multer({
   }),
 });
 
+const multerReviewImages = multer({
+  storage: multerS3({
+    s3,
+    bucket: "sopt-27-wooyeong",
+    acl: "public-read",
+    key: function (req, file, cb) {
+      cb(null, "kimu/users/reviewImage/" + Date.now() + "." + file.originalname.split(".").pop());
+    },
+  }),
+});
+
 export const uploadProfileImage = multerProfileImage.single("imageFile");
+export const uploadReviewImages = multerReviewImages.array("imageFiles", 3);

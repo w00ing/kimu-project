@@ -38,14 +38,6 @@ usersRouter.put(
   usersController.updateUserPassword,
 );
 
-// Update Social Issues
-usersRouter.put(
-  "/social-issues",
-  validationMiddleware(UpdateUserSocialIssuesDto),
-  authMiddleware.checkToken,
-  usersController.updateUserSocialIssues,
-);
-
 // Get All Users
 usersRouter.get("/", usersController.getAllUsers);
 
