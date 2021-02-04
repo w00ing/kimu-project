@@ -310,6 +310,7 @@ export class MyPageController extends BaseController {
         orderProduct: orderProductId,
         reviewImages: imageUrls,
       });
+      await this.userRepo.update(user.id, { mileage: user.mileage + 500 });
       await this.orderProductRepo.update({ id: orderProductId }, { didWriteReview: true });
 
       await this.reviewRepo.save(review);
