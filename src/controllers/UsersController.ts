@@ -62,6 +62,7 @@ class UsersController extends BaseController {
   };
 
   // Login
+  // Make login with hashed version temporarily. Remove on production
   public login = async (req: Request, res: Response, next: NextFunction) => {
     logging.info(this.NAMESPACE, "Login");
     const userData: LoginUserDto = req.body;
@@ -71,7 +72,8 @@ class UsersController extends BaseController {
       if (!user) {
         return next(new WrongCredentialsException());
       }
-      const isPasswordMatching = await bcrypt.compare(userData.password, user.password);
+      // const isPasswordMatching = await bcrypt.compare(userData.password, user.password);
+      const isPasswordMatching = userData.password === user.password;
       if (isPasswordMatching) {
         user.password = undefined;
         const tokenData: TokenData = this.jwt.createToken(user);

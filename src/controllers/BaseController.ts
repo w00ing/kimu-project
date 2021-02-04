@@ -1,6 +1,7 @@
 import express, { Response } from "express";
 import { Cart } from "src/entity/Cart";
 import { Coupon } from "src/entity/Coupon";
+import { Issuedcoupon } from "src/entity/Issuedcoupon";
 import { Order } from "src/entity/Order";
 import { Product } from "src/entity/Product";
 import { Category, Subcategory, Topic } from "src/entity/ProductClassification";
@@ -20,12 +21,14 @@ export abstract class BaseController {
   orderRepo: Repository<Order>;
   cartRepo: Repository<Cart>;
   couponRepo: Repository<Coupon>;
+  issuedcouponRepo: Repository<Issuedcoupon>;
   reviewRepo: Repository<Review>;
   socialIssueRepo: Repository<SocialIssue>;
   constructor() {
     this.userRepo = getRepository(User);
     this.productRepo = getRepository(Product);
     this.categoryRepo = getRepository(Category);
+    this.issuedcouponRepo = getRepository(Issuedcoupon);
     this.subcategoryRepo = getRepository(Subcategory);
     this.topicRepo = getRepository(Topic);
     this.orderRepo = getRepository(Order);
