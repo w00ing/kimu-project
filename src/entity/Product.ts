@@ -24,7 +24,7 @@ export class Product {
   name: string;
 
   @Column()
-  price: string;
+  price: number;
 
   @Column({ type: "simple-array", nullable: true })
   productImages: string[];
@@ -34,7 +34,7 @@ export class Product {
   isDiscounted: boolean;
 
   @Column({ default: 0 })
-  discountAmount: string;
+  discountAmount: number;
 
   @Column({ type: "datetime", nullable: true })
   discountStartDateTime: Date;
@@ -56,7 +56,7 @@ export class Product {
 
   // Shipping options
   @Column({ default: 0 })
-  shippingCost: string;
+  shippingCost: number;
 
   @Column()
   group: string;

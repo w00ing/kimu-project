@@ -11,6 +11,7 @@ export default class CreateOrders implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
     const userRepo = getRepository(User);
     const productRepo = getRepository(Product);
+    const orderRepo = getRepository(Order);
     const orderProductRepo = getRepository(OrderProduct);
 
     const users = await userRepo.find();
@@ -30,6 +31,8 @@ export default class CreateOrders implements Seeder {
           continue;
         }
         await factory(OrderProduct)().create({ order, product });
+        order.totalCost += product.price;
+        await orderRepo.save(order);
       }
     }
   }

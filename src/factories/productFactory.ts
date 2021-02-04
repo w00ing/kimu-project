@@ -8,19 +8,19 @@ define(Product, (faker: typeof Faker) => {
   let groups = ["a", "b", "c"];
 
   const name = faker.random.word();
-  const price = faker.finance.amount(1000, 100000, 0, "₩");
+  const price = parseInt(faker.finance.amount(1000, 100000, 0));
   const productImages = [
     `https://picsum.photos/300/300?random=${Math.round(Math.random() * 1000)}`,
     `https://picsum.photos/300/300?random=${Math.round(Math.random() * 1000)}`,
     `https://picsum.photos/300/300?random=${Math.round(Math.random() * 1000)}`,
   ];
   const isDiscounted = faker.random.boolean();
-  const discountAmount = faker.finance.amount(1000, 100000, 0, "₩");
+  const discountAmount = parseInt(faker.finance.amount(1000, 100000, 0));
   const discountStartDateTime = faker.date.past();
   const discountEndDateTime = faker.date.future();
 
   // category, subcategory, topic
-  const shippingCost = faker.finance.amount(1000, 50000, 0, "₩");
+  const shippingCost = parseInt(faker.finance.amount(1000, 50000, 0));
   const group = faker.random.arrayElement(groups);
   const isAvailable = faker.random.boolean();
   const quantityAvailable = faker.random.number(100);
@@ -33,7 +33,7 @@ define(Product, (faker: typeof Faker) => {
     price,
     productImages,
     isDiscounted,
-    discountAmount: isDiscounted ? discountAmount : "0",
+    discountAmount: isDiscounted ? discountAmount : 0,
     discountStartDateTime,
     discountEndDateTime,
     shippingCost,

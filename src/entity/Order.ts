@@ -25,6 +25,9 @@ export class Order {
   @Column({ nullable: true })
   orderRequest: string;
 
+  @Column({ nullable: true })
+  totalCost: number;
+
   // User
   @ManyToOne(type => User, user => user.orders)
   user: User;
