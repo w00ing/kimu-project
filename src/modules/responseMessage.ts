@@ -54,6 +54,7 @@ const responseMessage = {
   ALREADY_REVIEW: "해당 주문상품에 대해 이미 리뷰를 작성했습니다.",
   GET_MYPAGE_ORDERPRODUCTS_WITHOUT_REVIEWS_SUCCESS:
     "마이페이지에서 리뷰를 작성하지 않은 주문한 상품들 조회 성공",
+  CONFIRM_USER_SUCCESS: "유저 확인 성공",
   NO_ISSUED_COUPONS: "보유한 쿠폰이 없습니다",
   NO_ORDERS_OF_THIS_USER: "이 유저는 주문 내역이 없습니다",
   NO_REVIEWS_OF_THIS_USER: "이 유저가 작성한 리뷰가 없습니다",

@@ -1,7 +1,9 @@
 import express from "express";
 import { MyPageController } from "src/controllers/MyPageController";
+import { ConfirmUserDto } from "src/dto/userDto";
 import AuthMiddleware from "src/middlewares/AuthMiddleware";
 import { uploadReviewImages } from "src/middlewares/multerMiddleware";
+import validationMiddleware from "src/middlewares/validationMiddleware";
 const myPageRouter = express.Router();
 const myPageController = new MyPageController();
 const authMiddleware = new AuthMiddleware();
@@ -35,6 +37,13 @@ myPageRouter.get(
   "/orders/:orderNumber",
   authMiddleware.checkToken,
   myPageController.getMyPageOrderDetail,
+);
+
+myPageRouter.post(
+  "/confirm-user",
+  authMiddleware.checkToken,
+  validationMiddleware(ConfirmUserDto),
+  myPageController.myPageConfirmUser,
 );
 
 export default myPageRouter;

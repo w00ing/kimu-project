@@ -1,11 +1,11 @@
 import { Exclude, Type } from "class-transformer";
-import { IsArray, IsBoolean, IsDate, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsDate, IsEmail, IsString } from "class-validator";
 
 export class CreateUserDto {
   @IsString()
   name: string;
 
-  @IsString()
+  @IsEmail()
   email: string;
 
   @IsString()
@@ -29,7 +29,7 @@ export class CreateUserDto {
 }
 
 export class LoginUserDto {
-  @IsString()
+  @IsEmail()
   email: string;
 
   @IsString()
@@ -59,4 +59,12 @@ export class UpdateUserPasswordDto {
 export class UpdateUserSocialIssuesDto {
   @IsArray()
   socialIssueNames: string[];
+}
+
+export class ConfirmUserDto {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  password: string;
 }

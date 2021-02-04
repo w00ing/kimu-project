@@ -7,6 +7,8 @@ import logging from "../config/logging";
 import NoSuchDataException from "src/exceptions/NoSuchDataException";
 import ConflictException from "src/exceptions/ConflictException";
 import RequestWithUserAndFiles from "src/interfaces/requestWithUserAndFiles";
+import WrongCredentialsException from "src/exceptions/WrongCredentialsException";
+import { ConfirmUserDto } from "src/dto/userDto";
 
 export class MyPageController extends BaseController {
   private NAMESPACE = "MyPage Controller";
@@ -316,6 +318,22 @@ export class MyPageController extends BaseController {
       await this.reviewRepo.save(review);
 
       this.OK(res, responseMessage.MYPAGE_WRITE_REVIEW_SUCCESS, review);
+    } catch (e) {
+      console.log(e);
+      next(new InternalServerException());
+    }
+  };
+
+  public myPageConfirmUser = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    const { user } = req;
+    const { email, password }: ConfirmUserDto = req.body;
+    // TODO: compare hashed passwords. We are using raw passwords for dev purpose for the time being.
+    try {
+      const userToBeConfirmed = await this.userRepo.findOne({ email, password });
+      if (!userToBeConfirmed || user.id !== userToBeConfirmed.id) {
+        return next(new WrongCredentialsException());
+      }
+      this.OK(res, responseMessage.CONFIRM_USER_SUCCESS, user);
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
