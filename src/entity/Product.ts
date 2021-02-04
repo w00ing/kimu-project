@@ -8,11 +8,10 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Cart } from "./Cart";
-import { Order } from "./Order";
+import { OrderProduct } from "./OrderProduct";
 import { Category, Subcategory, Topic } from "./ProductClassification";
 import { ProductOption } from "./ProductOption";
 import { Review } from "./Review";
-import { User } from "./User";
 
 @Entity()
 export class Product {
@@ -77,15 +76,15 @@ export class Product {
   @OneToMany(type => ProductOption, productOption => productOption.product)
   productOptions: ProductOption[];
 
-  // Reviews
-  @OneToMany(type => Review, review => review.product)
-  reviews: Review[];
-
   // Cart
   @OneToMany(type => Cart, cart => cart.product)
   carts: Cart[];
 
-  // Orders
-  @OneToMany(type => Order, order => order.product)
-  orders: Order[];
+  // Reviews
+  @OneToMany(type => Review, review => review.product)
+  reviews: Review[];
+
+  // OrderProduct
+  @OneToMany(type => OrderProduct, orderProduct => orderProduct.product)
+  orderProducts: OrderProduct[];
 }

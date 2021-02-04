@@ -1,5 +1,5 @@
-import { PrimaryGeneratedColumn, Column, Entity, ManyToMany, Generated } from "typeorm";
-import { User } from "./User";
+import { PrimaryGeneratedColumn, Column, Entity, OneToMany, Generated } from "typeorm";
+import { Issuedcoupon } from "./Issuedcoupon";
 
 @Entity()
 export class Coupon {
@@ -9,15 +9,15 @@ export class Coupon {
   @Column()
   name: string;
 
-  @Column()
-  @Generated("uuid")
-  code: string;
-
   @Column({ nullable: true })
   target: string;
 
   @Column()
   content: string;
+
+  @Column()
+  @Generated("uuid")
+  code: string;
 
   @Column({ nullable: true })
   discountAmount: string;
@@ -28,9 +28,6 @@ export class Coupon {
   @Column()
   minimumOrderAmount: string;
 
-  @Column({ type: "datetime" })
-  expirationDate: Date;
-
-  @ManyToMany(type => User, user => user.coupons)
-  user: User;
+  @OneToMany(type => Issuedcoupon, issuedcoupon => issuedcoupon.coupon)
+  issuedcoupons: Issuedcoupon[];
 }

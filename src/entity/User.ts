@@ -8,12 +8,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Coupon } from "./Coupon";
 import { SocialIssue } from "./SocialIssue";
-import { Product } from "./Product";
 import { Order } from "./Order";
 import { Cart } from "./Cart";
 import { Review } from "./Review";
+import { Issuedcoupon } from "./Issuedcoupon";
 
 @Entity()
 export class User {
@@ -57,11 +56,10 @@ export class User {
   socialIssues: SocialIssue[];
 
   // Coupons
-  @ManyToMany(type => Coupon, coupon => coupon.user)
-  @JoinTable()
-  coupons: Coupon[];
+  @OneToMany(type => Issuedcoupon, issuedcoupon => issuedcoupon.user)
+  issuedcoupons: Issuedcoupon[];
 
-  // Reviews
+  Reviews;
   @OneToMany(type => Review, review => review.user)
   reviews: Review[];
 

@@ -7,7 +7,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Order } from "./Order";
+import { OrderProduct } from "./OrderProduct";
 import { Product } from "./Product";
 import { User } from "./User";
 
@@ -40,13 +40,13 @@ export class Review {
   @Column("simple-array")
   reviewImages: string[];
 
-  @ManyToOne(type => User, user => user.reviews)
-  user: User;
-
   @ManyToOne(type => Product, product => product.reviews)
   product: Product;
 
-  @OneToOne(type => Order, order => order.review)
-  @JoinColumn({ name: "orderId" })
-  order: Order;
+  @ManyToOne(type => User, user => user.reviews)
+  user: User;
+
+  @OneToOne(type => OrderProduct, orderProduct => orderProduct.review)
+  @JoinColumn({ name: "orderProductId" })
+  orderProduct: OrderProduct;
 }

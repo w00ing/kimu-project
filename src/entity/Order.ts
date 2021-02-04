@@ -1,18 +1,15 @@
-import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Product } from "./Product";
+import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { OrderProduct } from "./OrderProduct";
 import { Review } from "./Review";
 import { User } from "./User";
 
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn("uuid")
-  orderId: string;
+  id: string;
 
   @Column()
   userId: number;
-
-  @Column()
-  productId: number;
 
   @Column({ type: "datetime" })
   orderDateTime: Date;
@@ -33,11 +30,7 @@ export class Order {
   @ManyToOne(type => User, user => user.orders)
   user: User;
 
-  // Product
-  @ManyToOne(type => Product, product => product.orders)
-  product: Product;
-
-  // Review
-  @OneToOne(type => Review, review => review.order)
-  review: Review;
+  // OrderProduct
+  @OneToMany(type => OrderProduct, orderProduct => orderProduct.order)
+  orderProducts: OrderProduct[];
 }
