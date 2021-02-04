@@ -16,6 +16,7 @@ define(Coupon, (faker: typeof Faker) => {
   const discountAmount = faker.finance.amount(5000, 10000, 0, "₩");
   const discountRate = faker.finance.amount(10, 80, 0) + "%";
   const minimumOrderAmount = faker.finance.amount(10000, 50000, 0, "₩");
+  const expirationDate = faker.date.future();
 
   const coupon = couponRepo.create({
     name,
@@ -24,6 +25,7 @@ define(Coupon, (faker: typeof Faker) => {
     discountAmount: discountOption === "amount" ? discountAmount : null,
     discountRate: discountOption === "rate" ? discountRate : null,
     minimumOrderAmount,
+    expirationDate,
   });
 
   return coupon;

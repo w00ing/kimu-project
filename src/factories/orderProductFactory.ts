@@ -5,7 +5,7 @@ import { define } from "typeorm-seeding";
 define(OrderProduct, (faker: typeof Faker) => {
   const orderRepo = getRepository(OrderProduct);
   const didWriteReview = faker.random.boolean();
-  const quantity = faker.random.number(10);
+  const quantity = faker.random.number(10) + 1;
   const orderProduct = orderRepo.create({ didWriteReview, quantity });
 
   return orderProduct;

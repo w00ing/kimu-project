@@ -36,7 +36,7 @@ define(Product, (faker: typeof Faker) => {
     discountAmount: isDiscounted ? discountAmount : 0,
     discountStartDateTime,
     discountEndDateTime,
-    shippingCost,
+    shippingCost: group === "c" ? 0 : shippingCost,
     group,
     isAvailable,
     quantityAvailable: isAvailable ? quantityAvailable : 0,
