@@ -5,7 +5,7 @@ import { getRepository } from "typeorm";
 
 define(User, (faker: typeof Faker) => {
   const userRepo = getRepository(User);
-  let genders = ["female", "male"];
+  let genders = ["여자", "남자"];
   const name = faker.internet.userName();
   const email = faker.internet.email();
   const gender = faker.random.arrayElement(genders);

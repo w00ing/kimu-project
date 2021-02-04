@@ -31,8 +31,7 @@ export class User {
   @Column({ type: "text", nullable: true })
   address: string;
 
-  @Column()
-  @Exclude()
+  @Column({ select: false })
   password: string;
 
   @Column({ type: "date" })
@@ -59,7 +58,7 @@ export class User {
   @OneToMany(type => Issuedcoupon, issuedcoupon => issuedcoupon.user)
   issuedcoupons: Issuedcoupon[];
 
-  Reviews;
+  // Reviews;
   @OneToMany(type => Review, review => review.user)
   reviews: Review[];
 
