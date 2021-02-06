@@ -69,15 +69,19 @@ class UsersController extends BaseController {
     logging.info(this.NAMESPACE, "Login");
     const userData: LoginUserDto = req.body;
     try {
-      const user = await this.findByEmail(userData.email);
+      const user = await this.findByEmail(userData.email, true);
+      console.log(user);
       if (!user) {
         return next(new WrongCredentialsException());
       }
       // const isPasswordMatching = await bcrypt.compare(userData.password, user.password);
       const isPasswordMatching = userData.password === user.password;
+      console.log(userData.password);
+      console.log(user.password);
       if (isPasswordMatching) {
         user.password = undefined;
         const tokenData: TokenData = this.jwt.createToken(user);
+        console.log(tokenData.expiresIn);
         res.setHeader("Set-Cookie", [this.createCookieWithJwtToken(tokenData)]);
         this.OK(res, responseMessage.LOGIN_SUCCESS, user);
       } else {
@@ -179,9 +183,16 @@ class UsersController extends BaseController {
     return socialIssues;
   }
 
-  private findByEmail = async (email: string) => {
-    const result = await this.userRepo.findOne({ email });
-    return result;
+  private findByEmail = async (email: string, password: boolean = false) => {
+    if (password) {
+      return await this.userRepo
+        .createQueryBuilder("user")
+        .where("user.email = :email", { email })
+        .addSelect("user.password")
+        .getOne();
+    } else {
+      return await this.userRepo.findOne({ email });
+    }
   };
 }
 

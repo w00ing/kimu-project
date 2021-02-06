@@ -122,6 +122,7 @@ export class MyPageController extends BaseController {
       const [reviews, reviewCount] = await this.reviewRepo
         .createQueryBuilder("review")
         .where("review.userId = :userId", { userId: user.id })
+        .andWhere("review.isApproved = :isApproved", { isApproved: true })
         .leftJoinAndSelect("review.orderProduct", "orderProduct")
         .leftJoinAndSelect("review.product", "product")
         .leftJoinAndSelect("orderProduct.order", "order")
@@ -225,6 +226,9 @@ export class MyPageController extends BaseController {
         .leftJoinAndSelect("order.orderProducts", "orderProduct")
         .leftJoinAndSelect("orderProduct.product", "product")
         .getOne();
+      if (!order) {
+        return next(new NoSuchDataException(responseMessage.NO_SUCH_ORDER));
+      }
 
       const orderDetail = {
         orderDateTime: order.orderDateTime,

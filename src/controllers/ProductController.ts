@@ -151,6 +151,7 @@ export class ProductController extends BaseController {
         .createQueryBuilder("review")
         .leftJoin("review.user", "user")
         .where("review.productId = :productId", { productId })
+        .andWhere("review.isApproved = :isApproved", { isApproved: true })
         .select([
           "review.id",
           "review.stars",
@@ -200,7 +201,7 @@ export class ProductController extends BaseController {
   };
   public searchProducts = async (req: Request, res: Response, next: NextFunction) => {
     logging.info(this.NAMESPACE, "Search Products");
-    const { searchTerm } = req.body;
+    const { searchTerm } = req.query;
     try {
       const products = await this.productRepo
         .createQueryBuilder("product")

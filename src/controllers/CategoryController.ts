@@ -25,7 +25,7 @@ export class CategoryController extends BaseController {
             })
             .select("COUNT(1)", "cnt")
             .getRawOne();
-          subcategory.productCount = cnt;
+          subcategory.productCount = +cnt;
         }
       }
       this.OK(res, responseMessage.GET_ALL_CATEGORIES_SUCCESS, categories);

@@ -23,13 +23,13 @@ export class Coupon {
   expirationDate: Date;
 
   @Column({ nullable: true })
-  discountAmount: string;
+  discountAmount: number;
 
   @Column({ nullable: true })
   discountRate: string;
 
   @Column()
-  minimumOrderAmount: string;
+  minimumOrderAmount: number;
 
   @OneToMany(type => Issuedcoupon, issuedcoupon => issuedcoupon.coupon)
   issuedcoupons: Issuedcoupon[];

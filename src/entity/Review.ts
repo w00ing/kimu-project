@@ -1,3 +1,4 @@
+import { ColumnNumericTransformer } from "src/transformers/ColumnNumericTransformer";
 import {
   Column,
   CreateDateColumn,
@@ -22,7 +23,7 @@ export class Review {
   @Column()
   productId: number;
 
-  @Column({ type: "decimal", precision: 2, scale: 1 })
+  @Column({ type: "decimal", precision: 2, scale: 1, transformer: new ColumnNumericTransformer() })
   stars: number;
 
   @Column()

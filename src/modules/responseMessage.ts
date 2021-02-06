@@ -56,6 +56,7 @@ const responseMessage = {
     "마이페이지에서 리뷰를 작성하지 않은 주문한 상품들 조회 성공",
   CONFIRM_USER_SUCCESS: "유저 확인 성공",
   NO_ISSUED_COUPONS: "보유한 쿠폰이 없습니다",
+  NO_SUCH_ORDER: "해당 주문번호를 가진 주문이 없습니다",
   NO_ORDERS_OF_THIS_USER: "이 유저는 주문 내역이 없습니다",
   NO_REVIEWS_OF_THIS_USER: "이 유저가 작성한 리뷰가 없습니다",
   NO_ORDERED_PRODUCTS_WITHOUT_REVIEW: "리뷰를 작성하지 않은 주문한 상품이 없습니다.",
