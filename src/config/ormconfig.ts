@@ -1,14 +1,26 @@
 import detectTSNode from "detect-ts-node";
 
-const commonConfig = {
-  type: "mysql",
-  host: process.env.MYSQL_HOST,
-  port: Number(process.env.MYSQL_PORT),
-  username: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DB,
-  synchronize: true,
-};
+const env = process.env.ENVIRONMENT;
+
+const commonConfig =
+  env === "local"
+    ? {
+        type: "mysql",
+        host: process.env.MYSQL_HOST_LOCAL,
+        port: Number(process.env.MYSQL_PORT),
+        username: process.env.MYSQL_USER_LOCAL,
+        password: process.env.MYSQL_PASSWORD,
+        database: process.env.MYSQL_DB,
+        synchronize: true,
+      }
+    : {
+        type: "mysql",
+        host: process.env.MYSQL_HOST_EC2,
+        port: Number(process.env.MYSQL_PORT),
+        username: process.env.MYSQL_USER_EC2,
+        password: process.env.MYSQL_PASSWORD_EC2,
+        database: process.env.MYSQL_DB_EC2,
+      };
 
 const srcConfig = {
   entities: ["src/entity/**/*.ts"],
