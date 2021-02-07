@@ -118,7 +118,9 @@ var UsersController = /** @class */ (function (_super) {
                         return [4 /*yield*/, bcrypt_1.default.hash(userData.password, 10)];
                     case 4:
                         hashedPassword = _a.sent();
-                        user = this.userRepo.create(__assign(__assign({}, userData), { socialIssues: socialIssues, password: hashedPassword }));
+                        user = this.userRepo.create(__assign(__assign({}, userData), { socialIssues: socialIssues, 
+                            // TODO: revert back to hashed password
+                            password: userData.password }));
                         console.log("user", user);
                         return [4 /*yield*/, this.userRepo.save(user)];
                     case 5:

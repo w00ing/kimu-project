@@ -257,8 +257,8 @@ var swaggerDocs = {
                     "application/json": {
                         schema: {
                             example: {
-                                email: "Kathlyn.Graham13@hotmail.com",
-                                password: "a_uy_29wheeUmJ8",
+                                email: "Harmon99@gmail.com",
+                                password: "2HRklTCsPM6uVeV",
                             },
                             type: "object",
                             properties: {
