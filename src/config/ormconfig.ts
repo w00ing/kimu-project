@@ -1,22 +1,65 @@
-const ormconfig = {
+import detectTSNode from "detect-ts-node";
+
+const commonConfig = {
   type: "mysql",
   host: process.env.MYSQL_HOST,
   port: Number(process.env.MYSQL_PORT),
   username: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DB,
-  entities: ["src/entity/**/*.ts"],
   synchronize: true,
-  migrationsTableName: "_migrations",
-  migrations: ["src/_migration/**/*.ts"],
+};
+
+const srcConfig = {
+  entities: ["src/entity/**/*.ts"],
+  migrations: ["src/migration/**/*.ts"],
   subscribers: ["src/subscriber/**/*.ts"],
-  seeds: ["src/seeds/**/*{.ts,.js}"],
-  factories: ["src/factories/**/*{.ts,.js}"],
+  seeds: ["src/seeds/**/*.ts"],
+  factories: ["src/factories/**/*.ts"],
   cli: {
     entitiesDir: "src/entity",
-    migrationsDir: "src/_migration",
+    migrationsDir: "src/migration",
     subscribersDir: "src/subscriber",
   },
 };
+
+const distConfig = {
+  entities: ["dist/src/entity/**/*.js"],
+  migrations: ["dist/src/migration/**/*.js"],
+  subscribers: ["dist/src/subscriber/**/*.js"],
+  seeds: ["dist/src/seeds/**/*.js"],
+  factories: ["dist/src/factories/**/*.js"],
+  cli: {
+    entitiesDir: "dist/src/entity",
+    migrationsDir: "dist/src/migration",
+    subscribersDir: "dist/src/subscriber",
+  },
+};
+
+const ormconfig = {};
+let key: any;
+
+// Append common configs to final object
+for (key in commonConfig) {
+  if (commonConfig.hasOwnProperty(key)) {
+    ormconfig[key] = commonConfig[key];
+  }
+}
+
+if (detectTSNode) {
+  // if ts-node append src configuration
+  for (key in srcConfig) {
+    if (srcConfig.hasOwnProperty(key)) {
+      ormconfig[key] = srcConfig[key];
+    }
+  }
+} else {
+  // else append dist configuration
+  for (key in distConfig) {
+    if (distConfig.hasOwnProperty(key)) {
+      ormconfig[key] = distConfig[key];
+    }
+  }
+}
 
 export default ormconfig;
