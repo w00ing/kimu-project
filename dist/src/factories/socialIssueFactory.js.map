@@ -1,0 +1,1 @@
+{"version":3,"file":"socialIssueFactory.js","sourceRoot":"","sources":["../../../src/factories/socialIssueFactory.ts"],"names":[],"mappings":";;AACA,mDAAyC;AACzC,qDAAoD;AACpD,mCAAwC;AAExC,wBAAM,CAAC,yBAAW,EAAE,UAAC,KAAmB;IACtC,IAAM,eAAe,GAAG,uBAAa,CAAC,yBAAW,CAAC,CAAC;IAEnD,IAAM,WAAW,GAAG,eAAe,CAAC,MAAM,EAAE,CAAC;IAE7C,OAAO,WAAW,CAAC;AACrB,CAAC,CAAC,CAAC"}
