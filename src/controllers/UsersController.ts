@@ -47,7 +47,8 @@ class UsersController extends BaseController {
       const user = this.userRepo.create({
         ...userData,
         socialIssues,
-        password: hashedPassword,
+        // TODO: revert back to hashed password
+        password: userData.password,
       });
       console.log("user", user);
       await this.userRepo.save(user);
