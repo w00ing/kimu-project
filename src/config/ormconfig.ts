@@ -22,6 +22,7 @@ if (env === "local") {
     username: process.env.MYSQL_USER_EC2,
     password: process.env.MYSQL_PASSWORD_EC2,
     database: process.env.MYSQL_DB_EC2,
+    synchronize: true,
   };
 }
 
