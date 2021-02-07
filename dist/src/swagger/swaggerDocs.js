@@ -12,7 +12,10 @@ var swaggerDocs = {
         title: "KIMU STUDIO",
         description: "A Swagger API docs for Kimu Studio",
     },
-    servers: [{ url: "http://localhost:3005/kimu/api/v1", description: "Local Server" }],
+    servers: [
+        { url: "http://localhost:3005/kimu/api/v1", description: "Local Server" },
+        { url: "http://52.78.212.95:3005/kimu/api/v1", description: "EC2 Server" },
+    ],
     components: {
         schemas: {
             Product: {
