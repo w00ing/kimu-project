@@ -7,7 +7,7 @@ import {
 } from "src/dto/userDto";
 import AuthMiddleware from "src/middlewares/AuthMiddleware";
 import validationMiddleware from "src/middlewares/validationMiddleware";
-import UsersController from "./../controllers/usersController";
+import UsersController from "./../controllers/UsersController";
 
 const usersController = new UsersController();
 const authMiddleware = new AuthMiddleware();

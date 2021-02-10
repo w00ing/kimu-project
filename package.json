@@ -47,7 +47,7 @@
   "scripts": {
     "start:dev": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts",
     "start:prod": "NODE_PATH='./dist' node ./dist/src/server.js",
-    "build": "rm -rf dist/ && tsc",
+    "build": "rm -rf dist/ && ./node_modules/typescript/bin/tsc -p ./tsconfig.json",
     "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js --configName ./src/config/ormconfig.ts seed"
   }

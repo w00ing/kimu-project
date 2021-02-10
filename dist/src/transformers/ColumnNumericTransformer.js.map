@@ -1,1 +1,0 @@
-{"version":3,"file":"ColumnNumericTransformer.js","sourceRoot":"","sources":["../../../src/transformers/ColumnNumericTransformer.ts"],"names":[],"mappings":";;;AAAA;IAAA;IAOA,CAAC;IANC,qCAAE,GAAF,UAAG,IAAY;QACb,OAAO,IAAI,CAAC;IACd,CAAC;IACD,uCAAI,GAAJ,UAAK,IAAY;QACf,OAAO,UAAU,CAAC,IAAI,CAAC,CAAC;IAC1B,CAAC;IACH,+BAAC;AAAD,CAAC,AAPD,IAOC;AAPY,4DAAwB"}
