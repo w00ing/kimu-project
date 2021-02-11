@@ -33,7 +33,11 @@ class App {
   }
 
   private initializeCors() {
-    const corsWhitelist = ["http://localhost:3000"];
+    const corsWhitelist = [
+      "http://localhost:3000",
+      "http://localhost:3005",
+      "http://52.78.212.95:3005",
+    ];
     this.app.use(
       cors({
         origin: (origin, callback) => {
