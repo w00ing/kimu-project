@@ -33,7 +33,7 @@ class App {
   }
 
   private initializeCors() {
-    this.app.use(cors());
+    this.app.use(cors({ credentials: true }));
     // this.app.use((req, res, next) => {
     //   res.header("Access-Control-Allow-Origin", "*");
     //   res.header(
