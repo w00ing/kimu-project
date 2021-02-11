@@ -161,11 +161,13 @@ class UsersController extends BaseController {
 
   // Methods below will be used only inside of this Class
   private createCookieWithJwtToken(tokenData: TokenData) {
-    return `Authorization=${tokenData.accessToken}; HttpOnly; Path=/; Max-Age=${tokenData.expiresIn}`;
+    // return `Authorization=${tokenData.accessToken}; HttpOnly; Path=/; Max-Age=${tokenData.expiresIn}`;
+    return `Authorization=${tokenData.accessToken}; Path=/; Max-Age=${tokenData.expiresIn}`;
   }
 
   private getCookieForLogOut() {
-    return `Authorization=; HttpOnly; Path=/; Max-age=0`;
+    // return `Authorization=; HttpOnly; Path=/; Max-age=0`;
+    return `Authorization=; Path=/; Max-age=0`;
   }
 
   private async getSocialIssues(socialIssueNames: string[]) {

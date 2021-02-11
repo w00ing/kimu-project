@@ -1,4 +1,5 @@
 import { createConnection } from "typeorm";
+import cors from "cors";
 import express from "express";
 import bodyParser from "body-parser";
 import logging from "./config/logging";
@@ -32,19 +33,20 @@ class App {
   }
 
   private initializeCors() {
-    this.app.use((req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-      );
-      if (req.method == "OPTIONS") {
-        res.header("Access-Control-Allow-Methods", "GET PATCH DELETE POST PUT");
-        return res.status(200).json({});
-      }
+    this.app.use(cors());
+    // this.app.use((req, res, next) => {
+    //   res.header("Access-Control-Allow-Origin", "*");
+    //   res.header(
+    //     "Access-Control-Allow-Headers",
+    //     "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    //   );
+    //   if (req.method == "OPTIONS") {
+    //     res.header("Access-Control-Allow-Methods", "GET PATCH DELETE POST PUT");
+    //     return res.status(200).json({});
+    //   }
 
-      next();
-    });
+    // next();
+    // });
   }
 
   private initializeLogging() {
