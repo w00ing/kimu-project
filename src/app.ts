@@ -33,20 +33,19 @@ class App {
   }
 
   private initializeCors() {
-    this.app.use(cors({ credentials: true }));
-    // this.app.use((req, res, next) => {
-    //   res.header("Access-Control-Allow-Origin", "*");
-    //   res.header(
-    //     "Access-Control-Allow-Headers",
-    //     "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-    //   );
-    //   if (req.method == "OPTIONS") {
-    //     res.header("Access-Control-Allow-Methods", "GET PATCH DELETE POST PUT");
-    //     return res.status(200).json({});
-    //   }
-
-    // next();
-    // });
+    const corsWhitelist = ["http://localhost:3000"];
+    this.app.use(
+      cors({
+        origin: (origin, callback) => {
+          if (corsWhitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+          } else {
+            callback(new Error("Not allowed origin"));
+          }
+        },
+        credentials: true,
+      }),
+    );
   }
 
   private initializeLogging() {
