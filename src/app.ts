@@ -15,12 +15,11 @@ class App {
   public port: number;
 
   constructor(ormconfig: {}, port: number) {
-    // this.app = express();
     this.port = port;
 
     this.initializeParsing();
     this.initializeLogging();
-    this.initializeCors();
+    // this.initializeCors();
     this.initializeConnection(ormconfig);
   }
 
@@ -33,20 +32,9 @@ class App {
   }
 
   private initializeCors() {
-    const corsWhitelist = [
-      "http://localhost:3000",
-      "http://localhost:3005",
-      "http://52.78.212.95:3005",
-    ];
     this.app.use(
       cors({
-        origin: (origin, callback) => {
-          if (corsWhitelist.indexOf(origin) !== -1) {
-            callback(null, true);
-          } else {
-            callback(new Error("Not allowed origin"));
-          }
-        },
+        origin: ["http://localhost:8080", "http://localhost:3000", "http://52.78.212.95:3005"],
         credentials: true,
       }),
     );
@@ -75,7 +63,7 @@ class App {
       await createConnection(ormconfig);
       console.log("✅ Connected to the Database!");
       const { default: IndexRouter } = await import("./routes/indexRouter");
-      this.app.use("/kimu/api/v1", IndexRouter);
+      this.app.use("/v1", IndexRouter);
       this.app.use(errorMiddleware);
     } catch (e) {
       console.log("❌ Error while connecting to the database", e);

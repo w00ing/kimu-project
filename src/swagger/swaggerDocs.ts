@@ -10,8 +10,9 @@ const swaggerDocs: OAS3Definition = {
     description: "A Swagger API docs for Kimu Studio",
   },
   servers: [
-    { url: "http://localhost:3005/kimu/api/v1", description: "Local Server" },
-    { url: "http://52.78.212.95:3005/kimu/api/v1", description: "EC2 Server" },
+    { url: "https://api.kimustudio.ga/v1", description: "EC2 Server" },
+    { url: "http://localhost:3005/v1", description: "Local Server" },
+    // { url: "http://52.78.212.95:3005/kimu/api/v1", description: "EC2 Server" },
   ],
 
   components: {
