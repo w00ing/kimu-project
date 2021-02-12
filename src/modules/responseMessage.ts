@@ -74,6 +74,9 @@ const responseMessage = {
   GET_BUNDLE_PRODUCTS_SUCCESS: "묶음배송 상품 조회 성공.",
   SEARCH_PRODUCTS_SUCCESS: "상품 검색 성공",
 
+  // 관심사회 이슈
+  GET_ALL_SOCIAL_ISSUES_SUCCESS: "모든 관심사회 이슈 불러오기 성공",
+
   // 리뷰
   GET_PRODUCT_REVIEWS_SUCCESS: "해당 상품의 리뷰 조회 성공",
 

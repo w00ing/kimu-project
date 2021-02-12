@@ -2671,6 +2671,99 @@ const swaggerDocs: OAS3Definition = {
         },
       },
     },
+    "/social-issues": {
+      get: {
+        summary: "Get all social issues",
+        tags: ["Social Issues"],
+        responses: {
+          200: {
+            decription: "OK",
+            content: {
+              "application/json": {
+                schema: {
+                  example: {
+                    status: 200,
+                    success: true,
+                    message: "모든 관심사회 이슈 불러오기 성공",
+                    data: [
+                      {
+                        id: 1,
+                        name: "장애인",
+                      },
+                      {
+                        id: 2,
+                        name: "환경",
+                      },
+                      {
+                        id: 3,
+                        name: "아동학대",
+                      },
+                      {
+                        id: 4,
+                        name: "성차별",
+                      },
+                      {
+                        id: 5,
+                        name: "인종차별",
+                      },
+                      {
+                        id: 6,
+                        name: "노인차별",
+                      },
+                      {
+                        id: 7,
+                        name: "난민",
+                      },
+                      {
+                        id: 8,
+                        name: "빈곤",
+                      },
+                      {
+                        id: 9,
+                        name: "취약계층\n아동자립",
+                      },
+                      {
+                        id: 10,
+                        name: "북한인권",
+                      },
+                      {
+                        id: 11,
+                        name: "미혼모/부",
+                      },
+                      {
+                        id: 12,
+                        name: "과거사",
+                      },
+                    ],
+                  },
+                  type: "object",
+                  properties: {
+                    status: {
+                      type: "integer",
+                      default: statusCode.OK,
+                    },
+                    success: {
+                      type: "boolean",
+                      default: true,
+                    },
+                    message: {
+                      type: "string",
+                      default: responseMessage.GET_ALL_SOCIAL_ISSUES_SUCCESS,
+                    },
+                    data: {
+                      type: "object",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          500: {
+            $ref: "#components/responses/InternalServerError",
+          },
+        },
+      },
+    },
   },
 };
 
