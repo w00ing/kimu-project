@@ -1436,16 +1436,18 @@ const swaggerDocs: OAS3Definition = {
                       {
                         id: 1,
                         name: "아트워크",
+                        categoryImage:
+                          "https://sopt-27-wooyeong.s3.ap-northeast-2.amazonaws.com/kimu/categories/bg-shop-artwork.jpg",
                         subcategories: [
                           {
                             id: 1,
                             name: "아트시그니처",
-                            productCount: 8,
+                            productCount: 12,
                           },
                           {
                             id: 2,
                             name: "아트포스터",
-                            productCount: 8,
+                            productCount: 7,
                           },
                           {
                             id: 3,
@@ -1457,41 +1459,43 @@ const swaggerDocs: OAS3Definition = {
                       {
                         id: 2,
                         name: "굿즈",
+                        categoryImage:
+                          "https://sopt-27-wooyeong.s3.ap-northeast-2.amazonaws.com/kimu/categories/bg-shop-goods.jpg",
                         subcategories: [
                           {
                             id: 4,
                             name: "콜라보레이션 굿즈",
-                            productCount: 12,
+                            productCount: 7,
                           },
                           {
                             id: 5,
                             name: "컬러링",
-                            productCount: 6,
+                            productCount: 12,
                           },
                           {
                             id: 6,
                             name: "폰케이스",
-                            productCount: 13,
+                            productCount: 16,
                           },
                           {
                             id: 7,
                             name: "노트",
-                            productCount: 12,
+                            productCount: 10,
                           },
                           {
                             id: 8,
                             name: "포스트카드",
-                            productCount: 9,
+                            productCount: 14,
                           },
                           {
                             id: 9,
                             name: "키톡",
-                            productCount: 7,
+                            productCount: 5,
                           },
                           {
                             id: 10,
                             name: "뱃지",
-                            productCount: 14,
+                            productCount: 6,
                           },
                         ],
                       },

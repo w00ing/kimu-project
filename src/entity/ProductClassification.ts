@@ -1,4 +1,11 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Product } from "./Product";
 
 export abstract class ProductClassification {
@@ -14,6 +21,9 @@ export abstract class ProductClassification {
 
 @Entity()
 export class Category extends ProductClassification {
+  @Column({ length: 400 })
+  categoryImage: string;
+
   @OneToMany(type => Subcategory, subcategory => subcategory.category)
   subcategories: Subcategory[];
 
