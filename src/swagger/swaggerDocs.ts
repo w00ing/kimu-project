@@ -1702,8 +1702,8 @@ const swaggerDocs: OAS3Definition = {
                 schema: {
                   type: "object",
                   example: {
-                    status: 200,
-                    success: true,
+                    status: 409,
+                    success: false,
                     message: "이미 있는 유저입니다",
                   },
                 },

@@ -192,9 +192,9 @@ class UsersController extends BaseController {
     logging.info(this.NAMESPACE, "Check Duplicate User");
     const { email } = req.body;
     try {
-      const alreadyUser = await this.userRepo.findOne({ where: { email } });
+      const alreadyUser = await this.findByEmail(email);
       if (alreadyUser) {
-        return this.OK(res, responseMessage.ALREADY_USER);
+        return next(new ConflictException(responseMessage.ALREADY_USER));
       }
       this.OK(res, responseMessage.EMAIL_AVAILABLE);
     } catch (e) {
