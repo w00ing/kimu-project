@@ -184,6 +184,25 @@ class UsersController extends BaseController {
     }
   };
 
+  public checkDuplicateUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    logging.info(this.NAMESPACE, "Check Duplicate User");
+    const { email } = req.body;
+    try {
+      const alreadyUser = await this.userRepo.findOne({ where: { email } });
+      if (alreadyUser) {
+        return this.OK(res, responseMessage.ALREADY_USER);
+      }
+      this.OK(res, responseMessage.EMAIL_AVAILABLE);
+    } catch (e) {
+      console.log(e);
+      next(new InternalServerException());
+    }
+  };
+
   // Methods below will be used only inside of this Class
   private createCookieWithJwtToken(tokenData: TokenData) {
     // return `Authorization=${tokenData.accessToken}; HttpOnly; Path=/; Max-Age=${tokenData.expiresIn}`;

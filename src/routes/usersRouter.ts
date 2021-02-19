@@ -14,7 +14,11 @@ const authMiddleware = new AuthMiddleware();
 const usersRouter = express.Router();
 
 // Create User
-usersRouter.post("/", validationMiddleware(CreateUserDto), usersController.createUser);
+usersRouter.post(
+  "/",
+  validationMiddleware(CreateUserDto),
+  usersController.createUser,
+);
 
 // Login
 usersRouter.post("/login", usersController.login);
@@ -37,6 +41,9 @@ usersRouter.put(
   authMiddleware.checkToken,
   usersController.updateUserPassword,
 );
+
+// Check duplicate user
+usersRouter.post("/check-duplicate", usersController.checkDuplicateUser);
 
 // Get All Users
 usersRouter.get("/", usersController.getAllUsers);

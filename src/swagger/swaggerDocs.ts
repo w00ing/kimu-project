@@ -1639,6 +1639,83 @@ const swaggerDocs: OAS3Definition = {
         },
       },
     },
+    "/users/check-duplicate": {
+      post: {
+        tags: ["Users"],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                example: {
+                  email: "Harmon99@gmail.com",
+                },
+                type: "object",
+                properties: {
+                  email: {
+                    type: "string",
+                    required: true,
+                    format: "email",
+                  },
+                },
+              },
+            },
+          },
+        },
+        summary: "Check if a user with the given email exists.",
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  example: {
+                    status: 200,
+                    success: true,
+                    message: "해당 이메일을 가진 유저가 없습니다",
+                  },
+                  properties: {
+                    status: {
+                      type: "integer",
+                      default: statusCode.OK,
+                    },
+                    success: {
+                      type: "boolean",
+                      default: true,
+                    },
+                    message: {
+                      type: "string",
+                      default: responseMessage.EMAIL_AVAILABLE,
+                    },
+                    data: {
+                      type: "object",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          409: {
+            description: "Email already taken",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  example: {
+                    status: 200,
+                    success: true,
+                    message: "이미 있는 유저입니다",
+                  },
+                },
+              },
+            },
+          },
+          500: {
+            $ref: "#components/responses/InternalServerError",
+          },
+        },
+      },
+    },
     "/users/login": {
       post: {
         tags: ["Users"],
