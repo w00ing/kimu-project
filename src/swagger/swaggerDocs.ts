@@ -430,6 +430,13 @@ const swaggerDocs: OAS3Definition = {
           type: "string",
         },
       },
+      auth: {
+        in: "header",
+        name: "auth",
+        required: true,
+        description: "An Authorization header",
+        type: "string",
+      },
     },
     //TODO: Wrong credentials
     responses: {
@@ -514,15 +521,15 @@ const swaggerDocs: OAS3Definition = {
       },
     },
     securitySchemes: {
-      cookieAuth: {
+      jwtAuth: {
         type: "http",
         scheme: "bearer",
         bearerFormat: "JWT",
-        in: "cookie",
+        in: "header",
         name: "Authorization",
       },
     },
-    // security: [{ cookieAuth: [] }],
+    // security: [{ jwtAuth: [] }],
   },
   paths: {
     "/products/best": {
@@ -1052,7 +1059,8 @@ const swaggerDocs: OAS3Definition = {
                         {
                           id: 71,
                           stars: 3,
-                          content: "Quia eaque quaerat est officia in ut odit voluptatem.",
+                          content:
+                            "Quia eaque quaerat est officia in ut odit voluptatem.",
                           createdAt: "2021-02-06T17:03:26.979Z",
                           approvedAt: "2021-01-23",
                           reviewImages: [
@@ -1085,7 +1093,8 @@ const swaggerDocs: OAS3Definition = {
                         {
                           id: 251,
                           stars: 1,
-                          content: "Error perspiciatis qui veritatis iure temporibus.",
+                          content:
+                            "Error perspiciatis qui veritatis iure temporibus.",
                           createdAt: "2021-02-06T17:03:27.312Z",
                           approvedAt: "2021-01-21",
                           reviewImages: [
@@ -1242,11 +1251,15 @@ const swaggerDocs: OAS3Definition = {
                     },
                     message: {
                       type: "string",
-                      default: responseMessage.GET_PRODUCTS_WITH_GIVEN_CATEGORY_SUCCESS,
+                      default:
+                        responseMessage.GET_PRODUCTS_WITH_GIVEN_CATEGORY_SUCCESS,
                     },
                     data: {
                       type: "array",
-                      items: { $ref: "#/components/schemas/ProductWithSubcategoriesAndTopics" },
+                      items: {
+                        $ref:
+                          "#/components/schemas/ProductWithSubcategoriesAndTopics",
+                      },
                     },
                   },
                 },
@@ -1387,7 +1400,8 @@ const swaggerDocs: OAS3Definition = {
                     },
                     message: {
                       type: "string",
-                      default: responseMessage.GET_PRODUCTS_WITH_GIVEN_SUBCATEGORY_SUCCESS,
+                      default:
+                        responseMessage.GET_PRODUCTS_WITH_GIVEN_SUBCATEGORY_SUCCESS,
                     },
                     data: {
                       type: "array",
@@ -1511,7 +1525,8 @@ const swaggerDocs: OAS3Definition = {
     "/users": {
       post: {
         tags: ["Users"],
-        summary: "Create a user. Generates Authrozation Token and saves it as a cookie on success",
+        summary:
+          "Create a user. Generates a jwt accessToken and returns it along with the created user information on success",
         requestBody: {
           $ref: "#components/requestBodies/CreateUser",
         },
@@ -1628,7 +1643,7 @@ const swaggerDocs: OAS3Definition = {
       post: {
         tags: ["Users"],
         summary:
-          "Login User with email and password. Generates Authrozation Token and saves it as a cookie on success",
+          "Login User with email and password. Generates a jwt accessToken and returns it along with logged in user information on success",
         requestBody: {
           $ref: "#/components/requestBodies/LoginUser",
         },
@@ -1686,54 +1701,55 @@ const swaggerDocs: OAS3Definition = {
         },
       },
     },
-    "/users/logout": {
-      post: {
-        tags: ["Users"],
-        summary: "Delete Authorization Token Cookie",
-        responses: {
-          200: {
-            description: "OK",
-            content: {
-              "application/json": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    status: {
-                      type: "integer",
-                      default: statusCode.OK,
-                    },
-                    success: {
-                      type: "boolean",
-                      default: true,
-                    },
-                    message: {
-                      type: "string",
-                      default: responseMessage.LOGOUT_SUCCESS,
-                    },
-                    data: {
-                      type: "object",
-                      example: {
-                        status: 200,
-                        success: true,
-                        message: "유저 로그아웃 성공",
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-          500: {
-            $ref: "#components/responses/InternalServerError",
-          },
-        },
-      },
-    },
+    // "/users/logout": {
+    //   post: {
+    //     tags: ["Users"],
+    //     summary: "Delete Authorization Token Cookie",
+    //     responses: {
+    //       200: {
+    //         description: "OK",
+    //         content: {
+    //           "application/json": {
+    //             schema: {
+    //               type: "object",
+    //               properties: {
+    //                 status: {
+    //                   type: "integer",
+    //                   default: statusCode.OK,
+    //                 },
+    //                 success: {
+    //                   type: "boolean",
+    //                   default: true,
+    //                 },
+    //                 message: {
+    //                   type: "string",
+    //                   default: responseMessage.LOGOUT_SUCCESS,
+    //                 },
+    //                 data: {
+    //                   type: "object",
+    //                   example: {
+    //                     status: 200,
+    //                     success: true,
+    //                     message: "유저 로그아웃 성공",
+    //                   },
+    //                 },
+    //               },
+    //             },
+    //           },
+    //         },
+    //       },
+    //       500: {
+    //         $ref: "#components/responses/InternalServerError",
+    //       },
+    //     },
+    //   },
+    // },
     "/users/user-info": {
       put: {
         tags: ["Users"],
-        security: [{ cookieAuth: [] }],
-        summary: "Update User info. Address, birthdate, gender, and social issues can be changed.",
+        security: [{ jwtAuth: [] }],
+        summary:
+          "Update User info. Address, birthdate, gender, and social issues can be changed.",
         requestBody: { $ref: "#components/requestBodies/UpdateUserInfo" },
         responses: {
           200: {
@@ -1835,7 +1851,7 @@ const swaggerDocs: OAS3Definition = {
     "/users/password": {
       put: {
         tags: ["Users"],
-        security: [{ cookieAuth: [] }],
+        security: [{ jwtAuth: [] }],
         summary: "Update User Password.",
         requestBody: { $ref: "#components/requestBodies/UpdateUserPassword" },
         responses: {
@@ -1896,7 +1912,7 @@ const swaggerDocs: OAS3Definition = {
     },
     "/mypage": {
       get: {
-        security: [{ cookieAuth: [] }],
+        security: [{ jwtAuth: [] }],
         summary:
           "Get information needed for mypage landing. This includes username, issuedcouponeCount, and mileage points.",
         tags: ["Mypage"],
@@ -1949,7 +1965,7 @@ const swaggerDocs: OAS3Definition = {
     },
     "/mypage/coupons": {
       get: {
-        security: [{ cookieAuth: [] }],
+        security: [{ jwtAuth: [] }],
         summary: "Get information about coupons owned by the logged in user.",
         tags: ["Mypage"],
         responses: {
@@ -2020,7 +2036,7 @@ const swaggerDocs: OAS3Definition = {
         },
       },
       post: {
-        security: [{ cookieAuth: [] }],
+        security: [{ jwtAuth: [] }],
         summary: "Issue a coupon with coupon code for the logged in user.",
         tags: ["Mypage"],
         requestBody: {
@@ -2092,7 +2108,8 @@ const swaggerDocs: OAS3Definition = {
                   example: {
                     status: 409,
                     success: false,
-                    message: "이 유저는 이미 해당 코드를 갖고 있는 쿠폰을 발급받았습니다",
+                    message:
+                      "이 유저는 이미 해당 코드를 갖고 있는 쿠폰을 발급받았습니다",
                   },
                 },
               },
@@ -2106,7 +2123,7 @@ const swaggerDocs: OAS3Definition = {
     },
     "/mypage/mileage": {
       get: {
-        security: [{ cookieAuth: [] }],
+        security: [{ jwtAuth: [] }],
         summary: "Get information about mileage owned by the logged in user.",
         tags: ["Mypage"],
         responses: {
@@ -2154,7 +2171,7 @@ const swaggerDocs: OAS3Definition = {
     },
     "/mypage/orders": {
       get: {
-        security: [{ cookieAuth: [] }],
+        security: [{ jwtAuth: [] }],
         summary: "Get information about orders made by the logged in user.",
         tags: ["Mypage"],
         responses: {
@@ -2171,21 +2188,24 @@ const swaggerDocs: OAS3Definition = {
                       {
                         orderNumber: "034c0af1-292c-41e7-afc3-f6599f65d277",
                         orderDateTime: "2020-04-22T20:42:48.000Z",
-                        firstProductImage: "https://picsum.photos/300/300?random=203",
+                        firstProductImage:
+                          "https://picsum.photos/300/300?random=203",
                         firstProductName: "Borders",
                         totalCost: 37193,
                       },
                       {
                         orderNumber: "04a4417f-f90d-4ab6-a7de-9c0c5b3c0767",
                         orderDateTime: "2020-10-11T03:58:57.000Z",
-                        firstProductImage: "https://picsum.photos/300/300?random=439",
+                        firstProductImage:
+                          "https://picsum.photos/300/300?random=439",
                         firstProductName: "Checking Account",
                         totalCost: 158862,
                       },
                       {
                         orderNumber: "151d413b-c967-41ac-93ee-7b2abc2a41f0",
                         orderDateTime: "2020-02-14T17:07:39.000Z",
-                        firstProductImage: "https://picsum.photos/300/300?random=52",
+                        firstProductImage:
+                          "https://picsum.photos/300/300?random=52",
                         firstProductName: "Chips",
                         totalCost: 129311,
                       },
@@ -2224,7 +2244,7 @@ const swaggerDocs: OAS3Definition = {
     },
     "/mypage/orders/{orderNumber}": {
       get: {
-        security: [{ cookieAuth: [] }],
+        security: [{ jwtAuth: [] }],
         summary: "Get order detail by orderNumber.",
         tags: ["Mypage"],
         parameters: [
@@ -2257,7 +2277,8 @@ const swaggerDocs: OAS3Definition = {
                       orderProducts: [
                         {
                           productName: "Borders",
-                          productImage: "https://picsum.photos/300/300?random=203",
+                          productImage:
+                            "https://picsum.photos/300/300?random=203",
                           productPrice: 37193,
                           discountAmount: 67686,
                           productOption: "Borders",
@@ -2326,7 +2347,7 @@ const swaggerDocs: OAS3Definition = {
     },
     "/mypage/reviews": {
       get: {
-        security: [{ cookieAuth: [] }],
+        security: [{ jwtAuth: [] }],
         summary: "Get information about reviws written by the logged in user.",
         tags: ["Mypage"],
         responses: {
@@ -2345,31 +2366,39 @@ const swaggerDocs: OAS3Definition = {
                         {
                           productName: "Applications",
                           productOption: "Steel",
-                          productImage: "https://picsum.photos/300/300?random=181",
+                          productImage:
+                            "https://picsum.photos/300/300?random=181",
                           orderDateTime: "2020-03-25T07:56:49.000Z",
-                          reviewImage: "https://picsum.photos/300/300?random=496",
+                          reviewImage:
+                            "https://picsum.photos/300/300?random=496",
                           reviewStars: 1.5,
-                          reviewContent: "Error amet quis omnis impedit occaecati aliquid officia.",
+                          reviewContent:
+                            "Error amet quis omnis impedit occaecati aliquid officia.",
                           reviewCreatedAt: "2021-02-06T17:03:26.974Z",
                           username: "Cathrine.Bosco72",
                         },
                         {
                           productName: "application",
                           productOption: "Tactics",
-                          productImage: "https://picsum.photos/300/300?random=965",
+                          productImage:
+                            "https://picsum.photos/300/300?random=965",
                           orderDateTime: "2020-09-24T07:29:39.000Z",
-                          reviewImage: "https://picsum.photos/300/300?random=315",
+                          reviewImage:
+                            "https://picsum.photos/300/300?random=315",
                           reviewStars: 4,
-                          reviewContent: "Commodi molestias soluta sed enim itaque voluptatem.",
+                          reviewContent:
+                            "Commodi molestias soluta sed enim itaque voluptatem.",
                           reviewCreatedAt: "2021-02-06T17:03:27.034Z",
                           username: "Cathrine.Bosco72",
                         },
                         {
                           productName: "invoice",
                           productOption: "Car",
-                          productImage: "https://picsum.photos/300/300?random=582",
+                          productImage:
+                            "https://picsum.photos/300/300?random=582",
                           orderDateTime: "2020-11-23T21:06:45.000Z",
-                          reviewImage: "https://picsum.photos/300/300?random=721",
+                          reviewImage:
+                            "https://picsum.photos/300/300?random=721",
                           reviewStars: 4.5,
                           reviewContent: "Voluptas eaque iste repellendus et.",
                           reviewCreatedAt: "2021-02-06T17:03:27.053Z",
@@ -2410,7 +2439,7 @@ const swaggerDocs: OAS3Definition = {
       },
       // TODO: image file
       post: {
-        security: [{ cookieAuth: [] }],
+        security: [{ jwtAuth: [] }],
         summary: "Write a review",
         tags: ["Mypage"],
         requestBody: {
@@ -2517,7 +2546,8 @@ const swaggerDocs: OAS3Definition = {
             $ref: "#components/responses/Unauthorized",
           },
           409: {
-            description: "This user has already written a review on this ordered product",
+            description:
+              "This user has already written a review on this ordered product",
             content: {
               "application/json": {
                 schema: {
@@ -2539,7 +2569,7 @@ const swaggerDocs: OAS3Definition = {
     },
     "/mypage/ordered-products-without-review": {
       get: {
-        security: [{ cookieAuth: [] }],
+        security: [{ jwtAuth: [] }],
         summary: "Get ordered products of the logged in user without review.",
         tags: ["Mypage"],
         responses: {
@@ -2551,14 +2581,16 @@ const swaggerDocs: OAS3Definition = {
                   example: {
                     status: 200,
                     success: true,
-                    message: "마이페이지에서 리뷰를 작성하지 않은 주문한 상품들 조회 성공",
+                    message:
+                      "마이페이지에서 리뷰를 작성하지 않은 주문한 상품들 조회 성공",
                     data: {
                       productCount: 34,
                       orderProductsWithoutReviewsInfo: [
                         {
                           productId: 9,
                           productName: "Borders",
-                          productImage: "https://picsum.photos/300/300?random=203",
+                          productImage:
+                            "https://picsum.photos/300/300?random=203",
                           productOption: "Borders",
                           orderDateTime: "2020-04-22T20:42:48.000Z",
                           orderProductId: 80,
@@ -2566,7 +2598,8 @@ const swaggerDocs: OAS3Definition = {
                         {
                           productId: 49,
                           productName: "Organic",
-                          productImage: "https://picsum.photos/300/300?random=437",
+                          productImage:
+                            "https://picsum.photos/300/300?random=437",
                           productOption: "Handcrafted Rubber Computer",
                           orderDateTime: "2020-10-11T03:58:57.000Z",
                           orderProductId: 334,
@@ -2574,7 +2607,8 @@ const swaggerDocs: OAS3Definition = {
                         {
                           productId: 70,
                           productName: "De-engineered",
-                          productImage: "https://picsum.photos/300/300?random=551",
+                          productImage:
+                            "https://picsum.photos/300/300?random=551",
                           productOption: "deposit",
                           orderDateTime: "2020-09-20T21:43:41.000Z",
                           orderProductId: 442,
@@ -2594,7 +2628,8 @@ const swaggerDocs: OAS3Definition = {
                     },
                     message: {
                       type: "string",
-                      default: responseMessage.GET_MYPAGE_ORDERPRODUCTS_WITHOUT_REVIEWS_SUCCESS,
+                      default:
+                        responseMessage.GET_MYPAGE_ORDERPRODUCTS_WITHOUT_REVIEWS_SUCCESS,
                     },
                     data: {
                       type: "object",

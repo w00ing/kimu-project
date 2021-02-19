@@ -26,7 +26,11 @@ class UsersController extends BaseController {
 
   // TODO: 전화번호 인증
   // Create User
-  public createUser = async (req: Request, res: Response, next: NextFunction) => {
+  public createUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, `Create a user`);
 
     const createUserDto: CreateUserDto = req.body;
@@ -35,7 +39,9 @@ class UsersController extends BaseController {
       // Handle exceptions
       const socialIssues = await this.getSocialIssues(socialIssueNames);
       if (!socialIssues) {
-        return next(new NoSuchDataException(responseMessage.NO_SUCH_SOCIAL_ISSUE));
+        return next(
+          new NoSuchDataException(responseMessage.NO_SUCH_SOCIAL_ISSUE),
+        );
       }
       const alreadyUser = await this.findByEmail(userData.email);
       if (alreadyUser) {
@@ -56,8 +62,10 @@ class UsersController extends BaseController {
 
       // Get Token and add it to Cookie
       const tokenData: TokenData = this.jwt.createToken(user);
-      res.setHeader("Set-Cookie", [this.createCookieWithJwtToken(tokenData)]);
-      this.OK(res, responseMessage.CREATE_USER_SUCCESS, user);
+      const { accessToken } = tokenData;
+      // res.setHeader("Set-Cookie", [this.createCookieWithJwtToken(tokenData)]);
+
+      this.OK(res, responseMessage.CREATE_USER_SUCCESS, { user, accessToken });
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
@@ -83,8 +91,10 @@ class UsersController extends BaseController {
         user.password = undefined;
         const tokenData: TokenData = this.jwt.createToken(user);
         console.log(tokenData.expiresIn);
-        res.setHeader("Set-Cookie", [this.createCookieWithJwtToken(tokenData)]);
-        this.OK(res, responseMessage.LOGIN_SUCCESS, user);
+        const { accessToken } = tokenData;
+        // res.setHeader("Set-Cookie", [this.createCookieWithJwtToken(tokenData)]);
+
+        this.OK(res, responseMessage.LOGIN_SUCCESS, { user, accessToken });
       } else {
         return next(new WrongCredentialsException());
       }
@@ -95,6 +105,7 @@ class UsersController extends BaseController {
   };
 
   // Logout
+  // No longer used
   public logout = (req: Request, res: Response, next: NextFunction) => {
     logging.info(this.NAMESPACE, "Logout");
     res.setHeader("Set-Cookie", [this.getCookieForLogOut()]);
@@ -102,7 +113,11 @@ class UsersController extends BaseController {
   };
 
   // Get All Users
-  public getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+  public getAllUsers = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, `Get all users`);
 
     try {
@@ -115,7 +130,11 @@ class UsersController extends BaseController {
   };
 
   // Update Password
-  public updateUserPassword = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public updateUserPassword = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, `Change password`);
 
     const { user } = req;
@@ -132,7 +151,11 @@ class UsersController extends BaseController {
   };
 
   // Update User Info
-  public updateUserInfo = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public updateUserInfo = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, `Change User Info`);
 
     const { user } = req;
@@ -141,7 +164,9 @@ class UsersController extends BaseController {
     try {
       const socialIssues = await this.getSocialIssues(socialIssueNames);
       if (!socialIssues) {
-        return next(new NoSuchDataException(responseMessage.NO_SUCH_SOCIAL_ISSUE));
+        return next(
+          new NoSuchDataException(responseMessage.NO_SUCH_SOCIAL_ISSUE),
+        );
       }
       await this.userRepo
         .createQueryBuilder()
