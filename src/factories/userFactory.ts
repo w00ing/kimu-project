@@ -9,7 +9,6 @@ define(User, (faker: typeof Faker) => {
   const name = faker.internet.userName();
   const email = faker.internet.email();
   const gender = faker.random.arrayElement(genders);
-  const address = faker.address.streetAddress();
   const password = faker.internet.password();
   const birthdate = faker.date.past();
   const phoneNumber = faker.phone.phoneNumber("010########");
@@ -19,7 +18,6 @@ define(User, (faker: typeof Faker) => {
     name,
     email,
     gender,
-    address,
     password,
     birthdate,
     phoneNumber,

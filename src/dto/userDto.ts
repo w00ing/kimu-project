@@ -1,5 +1,12 @@
 import { Exclude, Type } from "class-transformer";
-import { IsArray, IsBoolean, IsDate, IsEmail, IsString } from "class-validator";
+import {
+  IsArray,
+  IsBoolean,
+  IsDate,
+  IsEmail,
+  IsNumber,
+  IsString,
+} from "class-validator";
 
 export class CreateUserDto {
   @IsString()
@@ -38,7 +45,13 @@ export class LoginUserDto {
 
 export class UpdateUserInfoDto {
   @IsString()
-  address: string;
+  zipCode: string;
+
+  @IsString()
+  addressFirstLine: string;
+
+  @IsString()
+  addressSecondLine: string;
 
   @IsDate()
   @Type(type => Date)

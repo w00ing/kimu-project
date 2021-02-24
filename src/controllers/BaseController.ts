@@ -1,4 +1,5 @@
 import express, { Response } from "express";
+import { Address } from "src/entity/Address";
 import { Cart } from "src/entity/Cart";
 import { Coupon } from "src/entity/Coupon";
 import { Issuedcoupon } from "src/entity/Issuedcoupon";
@@ -15,6 +16,7 @@ import util from "../modules/util";
 
 export abstract class BaseController {
   userRepo: Repository<User>;
+  addressRepo: Repository<Address>;
   productRepo: Repository<Product>;
   categoryRepo: Repository<Category>;
   subcategoryRepo: Repository<Subcategory>;
@@ -28,6 +30,7 @@ export abstract class BaseController {
   socialIssueRepo: Repository<SocialIssue>;
   constructor() {
     this.userRepo = getRepository(User);
+    this.addressRepo = getRepository(Address);
     this.productRepo = getRepository(Product);
     this.categoryRepo = getRepository(Category);
     this.issuedcouponRepo = getRepository(Issuedcoupon);
@@ -43,6 +46,8 @@ export abstract class BaseController {
 
   public OK<T>(res: Response, message: string, data?: T) {
     res.type("application/json");
-    return res.status(statusCode.OK).send(util.success(statusCode.OK, message, data));
+    return res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message, data));
   }
 }

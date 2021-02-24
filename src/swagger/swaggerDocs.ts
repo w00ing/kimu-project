@@ -282,8 +282,11 @@ const swaggerDocs: OAS3Definition = {
           "application/json": {
             schema: {
               example: {
-                address: "new ",
+                birthdate: "1990-01-02",
                 gender: "male",
+                zipCode: "08814",
+                addressFirstLine: "대학5길 17",
+                addressSecondLine: "1004호",
                 socialIssueNames: ["장애인", "환경", "난민"],
               },
               type: "object",
@@ -1544,6 +1547,40 @@ const swaggerDocs: OAS3Definition = {
               "application/json": {
                 schema: {
                   type: "object",
+                  example: {
+                    status: 200,
+                    success: true,
+                    message: "유저 생성 성공",
+                    data: {
+                      user: {
+                        name: "Wooyeong",
+                        email: "kimwy1x997@gmail.com",
+                        gender: "남자",
+                        address: "758 Winfield Pike",
+                        birthdate: "1997-03-06",
+                        phoneNumber: "01021227842",
+                        socialIssues: [
+                          {
+                            id: 4,
+                            name: "성차별",
+                          },
+                          {
+                            id: 2,
+                            name: "환경",
+                          },
+                          {
+                            id: 7,
+                            name: "난민",
+                          },
+                        ],
+                        id: 18,
+                        mileage: 0,
+                        createdAt: "2021-02-21T13:30:10.437Z",
+                      },
+                      accessToken:
+                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoia2ltd3kxeDk5N0BnbWFpbC5jb20iLCJuYW1lIjoiV29veWVvbmciLCJpYXQiOjE2MTM4ODE4MTAsImV4cCI6MTYxNjQ3MzgxMCwiaXNzIjoia2ltdSJ9.Uoh4Ekf4MV71qMD3PucfoKbqERwugxlUTgvx4sXapMc",
+                    },
+                  },
                   properties: {
                     status: {
                       type: "integer",
@@ -1559,36 +1596,6 @@ const swaggerDocs: OAS3Definition = {
                     },
                     data: {
                       type: "object",
-                      example: {
-                        status: 200,
-                        success: true,
-                        message: "유저 생성 성공",
-                        data: {
-                          name: "Wooyeong",
-                          email: "kimwy1997@gmail.com",
-                          gender: "남자",
-                          address: "758 Winfield Pike",
-                          birthdate: "1997-03-06",
-                          phoneNumber: "01021227842",
-                          socialIssues: [
-                            {
-                              id: 4,
-                              name: "성차별",
-                            },
-                            {
-                              id: 2,
-                              name: "환경",
-                            },
-                            {
-                              id: 7,
-                              name: "난민",
-                            },
-                          ],
-                          id: 13,
-                          mileage: 0,
-                          createdAt: "2021-02-06T17:12:02.947Z",
-                        },
-                      },
                     },
                   },
                 },
@@ -1738,6 +1745,45 @@ const swaggerDocs: OAS3Definition = {
               "application/json": {
                 schema: {
                   type: "object",
+                  example: {
+                    status: 200,
+                    success: true,
+                    message: "로그인 성공",
+                    data: {
+                      user: {
+                        id: 11,
+                        name: "Wooyeong",
+                        email: "kimwy1997@gmail.com",
+                        gender: "male",
+                        birthdate: "1997-03-06",
+                        phoneNumber: "01021227842",
+                        mileage: 0,
+                        createdAt: "2021-02-07T16:53:03.976Z",
+                        address: {
+                          userId: 11,
+                          zipCode: "100-111",
+                          addressFirstLine: "가나로 다라동",
+                          addressSecondLine: "마바아파트 202호",
+                        },
+                        socialIssues: [
+                          {
+                            id: 1,
+                            name: "장애인",
+                          },
+                          {
+                            id: 2,
+                            name: "환경",
+                          },
+                          {
+                            id: 7,
+                            name: "난민",
+                          },
+                        ],
+                      },
+                      accessToken:
+                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImVtYWlsIjoia2ltd3kxOTk3QGdtYWlsLmNvbSIsIm5hbWUiOiJXb295ZW9uZyIsImlhdCI6MTYxMzkwMzI4OCwiZXhwIjoxNjE2NDk1Mjg4LCJpc3MiOiJraW11In0.XlYM-28YpZ17HlgEVfqVPTPY7dAbxZB7RO9ALjDF4IM",
+                    },
+                  },
                   properties: {
                     status: {
                       type: "integer",
@@ -1753,22 +1799,6 @@ const swaggerDocs: OAS3Definition = {
                     },
                     data: {
                       type: "object",
-                      example: {
-                        status: 200,
-                        success: true,
-                        message: "로그인 성공",
-                        data: {
-                          id: 1,
-                          name: "Cathrine.Bosco72",
-                          email: "Merle.Pouros40@yahoo.com",
-                          gender: "여자",
-                          address: "322 Graham Row",
-                          birthdate: "2020-03-01",
-                          phoneNumber: "01041936370",
-                          mileage: 1071,
-                          createdAt: "2021-02-06T17:03:17.095Z",
-                        },
-                      },
                     },
                   },
                 },
@@ -1846,15 +1876,20 @@ const swaggerDocs: OAS3Definition = {
                     success: true,
                     message: "유저 정보 수정 성공",
                     data: {
-                      id: 1,
-                      name: "Cathrine.Bosco72",
-                      email: "Merle.Pouros40@yahoo.com",
+                      id: 11,
+                      name: "Wooyeong",
+                      email: "kimwy1997@gmail.com",
                       gender: "male",
-                      address: "new ",
-                      birthdate: "2020-03-01",
-                      phoneNumber: "01041936370",
-                      mileage: 1071,
-                      createdAt: "2021-02-06T17:03:17.095Z",
+                      birthdate: "1997-03-06",
+                      phoneNumber: "01021227842",
+                      mileage: 0,
+                      createdAt: "2021-02-07T16:53:03.976Z",
+                      address: {
+                        userId: 11,
+                        zipCode: "100-111",
+                        addressFirstLine: "가나로 다라동",
+                        addressSecondLine: "마바아파트 202호",
+                      },
                       socialIssues: [
                         {
                           id: 1,
@@ -2668,31 +2703,34 @@ const swaggerDocs: OAS3Definition = {
                       productCount: 34,
                       orderProductsWithoutReviewsInfo: [
                         {
-                          productId: 9,
-                          productName: "Borders",
+                          productId: 83,
+                          productName: "USB",
+                          productPrice: 56729,
                           productImage:
-                            "https://picsum.photos/300/300?random=203",
-                          productOption: "Borders",
-                          orderDateTime: "2020-04-22T20:42:48.000Z",
-                          orderProductId: 80,
-                        },
-                        {
-                          productId: 49,
-                          productName: "Organic",
-                          productImage:
-                            "https://picsum.photos/300/300?random=437",
-                          productOption: "Handcrafted Rubber Computer",
-                          orderDateTime: "2020-10-11T03:58:57.000Z",
+                            "https://picsum.photos/300/300?random=848",
+                          productOption: "Ameliorated",
+                          orderDateTime: "2020-06-14T21:43:47.000Z",
                           orderProductId: 334,
                         },
                         {
-                          productId: 70,
-                          productName: "De-engineered",
+                          productId: 17,
+                          productName: "Soft",
+                          productPrice: 49573,
                           productImage:
-                            "https://picsum.photos/300/300?random=551",
-                          productOption: "deposit",
-                          orderDateTime: "2020-09-20T21:43:41.000Z",
-                          orderProductId: 442,
+                            "https://picsum.photos/300/300?random=722",
+                          productOption: "olive",
+                          orderDateTime: "2020-03-29T17:44:41.000Z",
+                          orderProductId: 369,
+                        },
+                        {
+                          productId: 93,
+                          productName: "bypass",
+                          productPrice: 62071,
+                          productImage:
+                            "https://picsum.photos/300/300?random=139",
+                          productOption: "Nevada",
+                          orderDateTime: "2020-08-23T15:00:47.000Z",
+                          orderProductId: 184,
                         },
                       ],
                     },
@@ -2731,6 +2769,7 @@ const swaggerDocs: OAS3Definition = {
     },
     "/mypage/confirm-user": {
       post: {
+        security: [{ jwtAuth: [] }],
         tags: ["Mypage"],
         summary: "Confirm user with email and password",
         requestBody: {
@@ -2742,6 +2781,41 @@ const swaggerDocs: OAS3Definition = {
             content: {
               "application/json": {
                 schema: {
+                  example: {
+                    status: 200,
+                    success: true,
+                    message: "유저 확인 성공",
+                    data: {
+                      id: 11,
+                      name: "Wooyeong",
+                      email: "kimwy1997@gmail.com",
+                      gender: "male",
+                      birthdate: "1997-03-06",
+                      phoneNumber: "01021227842",
+                      mileage: 0,
+                      createdAt: "2021-02-07T16:53:03.976Z",
+                      address: {
+                        userId: 11,
+                        zipCode: "100-111",
+                        addressFirstLine: "가나로 다라동",
+                        addressSecondLine: "마바아파트 202호",
+                      },
+                      socialIssues: [
+                        {
+                          id: 1,
+                          name: "장애인",
+                        },
+                        {
+                          id: 2,
+                          name: "환경",
+                        },
+                        {
+                          id: 7,
+                          name: "난민",
+                        },
+                      ],
+                    },
+                  },
                   type: "object",
                   properties: {
                     status: {
@@ -2758,22 +2832,6 @@ const swaggerDocs: OAS3Definition = {
                     },
                     data: {
                       type: "object",
-                      example: {
-                        status: 200,
-                        success: true,
-                        message: "유저 확인 성공",
-                        data: {
-                          id: 1,
-                          name: "Zella.Larkin",
-                          email: "Kathlyn.Graham13@hotmail.com",
-                          gender: "남자",
-                          address: "05221 Sawayn Tunnel",
-                          birthdate: "2020-09-01",
-                          phoneNumber: "01095160182",
-                          mileage: 1811,
-                          createdAt: "2021-02-06T19:45:25.313Z",
-                        },
-                      },
                     },
                   },
                 },

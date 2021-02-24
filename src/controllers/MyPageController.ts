@@ -13,7 +13,11 @@ import { ConfirmUserDto } from "src/dto/userDto";
 export class MyPageController extends BaseController {
   private NAMESPACE = "MyPage Controller";
 
-  public getMyPageInfo = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public getMyPageInfo = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, "Get Mypage Info");
     const { user } = req;
     try {
@@ -31,7 +35,11 @@ export class MyPageController extends BaseController {
     }
   };
 
-  public getMyPageCouponsInfo = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public getMyPageCouponsInfo = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, "Get Mypage Coupons Info");
     const { user } = req;
     try {
@@ -63,26 +71,42 @@ export class MyPageController extends BaseController {
         };
         issuedcouponsInfo.push(info);
       }
-      this.OK(res, responseMessage.GET_MYPAGE_COUPONS_INFO_SUCCESS, issuedcouponsInfo);
+      this.OK(
+        res,
+        responseMessage.GET_MYPAGE_COUPONS_INFO_SUCCESS,
+        issuedcouponsInfo,
+      );
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
     }
   };
 
-  public getMyPageMileageInfo = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public getMyPageMileageInfo = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, "Get Mypage Mileage Info");
     const { user } = req;
     try {
       const mileageInfo = user.mileage;
-      this.OK(res, responseMessage.GET_MYPAGE_MILEAGE_INFO_SUCCESS, mileageInfo);
+      this.OK(
+        res,
+        responseMessage.GET_MYPAGE_MILEAGE_INFO_SUCCESS,
+        mileageInfo,
+      );
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
     }
   };
 
-  public getMyPageOrdersInfo = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public getMyPageOrdersInfo = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, "Get Mypage Orders Info");
     const { user } = req;
 
@@ -95,7 +119,9 @@ export class MyPageController extends BaseController {
         .addSelect(["order.orderDateTime", "order.id", "product.productImages"])
         .getMany();
       if (!orders) {
-        return next(new NoSuchDataException(responseMessage.NO_ORDERS_OF_THIS_USER));
+        return next(
+          new NoSuchDataException(responseMessage.NO_ORDERS_OF_THIS_USER),
+        );
       }
       const ordersInfo = [];
       for (let order of orders) {
@@ -115,7 +141,11 @@ export class MyPageController extends BaseController {
     }
   };
 
-  public getMyPageReviewsInfo = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public getMyPageReviewsInfo = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, "Get Mypage Reviews Info");
     const { user } = req;
     try {
@@ -138,7 +168,9 @@ export class MyPageController extends BaseController {
         ])
         .getManyAndCount();
       if (!reviews) {
-        return next(new NoSuchDataException(responseMessage.NO_REVIEWS_OF_THIS_USER));
+        return next(
+          new NoSuchDataException(responseMessage.NO_REVIEWS_OF_THIS_USER),
+        );
       }
       const reviewsInfo = [];
       for (let review of reviews) {
@@ -155,7 +187,10 @@ export class MyPageController extends BaseController {
         };
         reviewsInfo.push(reviewInfo);
       }
-      this.OK(res, responseMessage.GET_MYPAGE_REVIEWS_INFO_SUCCESS, { reviewCount, reviewsInfo });
+      this.OK(res, responseMessage.GET_MYPAGE_REVIEWS_INFO_SUCCESS, {
+        reviewCount,
+        reviewsInfo,
+      });
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
@@ -167,7 +202,10 @@ export class MyPageController extends BaseController {
     res: Response,
     next: NextFunction,
   ) => {
-    logging.info(this.NAMESPACE, "Get Mypage Order Products Without Reviews Info");
+    logging.info(
+      this.NAMESPACE,
+      "Get Mypage Order Products Without Reviews Info",
+    );
 
     const { user } = req;
 
@@ -186,18 +224,24 @@ export class MyPageController extends BaseController {
           "orderProduct.orderProductOption",
           "product.id",
           "product.name",
+          "product.price",
           "product.productImages",
           "order.orderDateTime",
         ])
         .getManyAndCount();
       if (!orderProductsWithoutReviews) {
-        return next(new NoSuchDataException(responseMessage.NO_ORDERED_PRODUCTS_WITHOUT_REVIEW));
+        return next(
+          new NoSuchDataException(
+            responseMessage.NO_ORDERED_PRODUCTS_WITHOUT_REVIEW,
+          ),
+        );
       }
       const orderProductsWithoutReviewsInfo = [];
       for (let orderProduct of orderProductsWithoutReviews) {
         const info = {
           productId: orderProduct.product.id,
           productName: orderProduct.product.name,
+          productPrice: orderProduct.product.price,
           productImage: orderProduct.product.productImages[0],
           productOption: orderProduct.orderProductOption,
           orderDateTime: orderProduct.order.orderDateTime,
@@ -206,17 +250,25 @@ export class MyPageController extends BaseController {
         orderProductsWithoutReviewsInfo.push(info);
       }
 
-      this.OK(res, responseMessage.GET_MYPAGE_ORDERPRODUCTS_WITHOUT_REVIEWS_SUCCESS, {
-        productCount,
-        orderProductsWithoutReviewsInfo,
-      });
+      this.OK(
+        res,
+        responseMessage.GET_MYPAGE_ORDERPRODUCTS_WITHOUT_REVIEWS_SUCCESS,
+        {
+          productCount,
+          orderProductsWithoutReviewsInfo,
+        },
+      );
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
     }
   };
 
-  public getMyPageOrderDetail = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public getMyPageOrderDetail = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, "Get Mypage Order Detail");
     const { orderNumber } = req.params;
     try {
@@ -253,14 +305,22 @@ export class MyPageController extends BaseController {
           };
         }),
       };
-      this.OK(res, responseMessage.GET_MYPAGE_ORDER_DETAIL_SUCCESS, orderDetail);
+      this.OK(
+        res,
+        responseMessage.GET_MYPAGE_ORDER_DETAIL_SUCCESS,
+        orderDetail,
+      );
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
     }
   };
 
-  public myPageIssueCoupon = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public myPageIssueCoupon = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
     logging.info(this.NAMESPACE, "Issue a Coupon in Mypage");
     const { user } = req;
     const { code } = req.body;
@@ -269,9 +329,16 @@ export class MyPageController extends BaseController {
       if (!coupon) {
         return next(new NoSuchDataException(responseMessage.NO_SUCH_COUPON));
       }
-      const alreadyIssuedCoupon = await this.issuedcouponRepo.findOne({ userId: user.id, code });
+      const alreadyIssuedCoupon = await this.issuedcouponRepo.findOne({
+        userId: user.id,
+        code,
+      });
       if (alreadyIssuedCoupon) {
-        return next(new ConflictException(responseMessage.ALREADY_ISSUED_COUPON_FOR_THIS_USER));
+        return next(
+          new ConflictException(
+            responseMessage.ALREADY_ISSUED_COUPON_FOR_THIS_USER,
+          ),
+        );
       }
 
       const issuedCoupon = this.issuedcouponRepo.create({
@@ -288,7 +355,11 @@ export class MyPageController extends BaseController {
         expirationDate: issuedCoupon.expirationDate,
         issuedDate: issuedCoupon.issuedDate,
       };
-      this.OK(res, responseMessage.MYPAGE_ISSUE_COUPON_SUCCESS, issuedCouponInfo);
+      this.OK(
+        res,
+        responseMessage.MYPAGE_ISSUE_COUPON_SUCCESS,
+        issuedCouponInfo,
+      );
     } catch (e) {
       console.log(e);
       next(new InternalServerException());
@@ -304,7 +375,9 @@ export class MyPageController extends BaseController {
     const { stars, content, productId, orderProductId } = req.body;
     const imageUrls = req.files.map(file => file.location);
     try {
-      const alreadyReview = await this.reviewRepo.findOne({ orderProduct: orderProductId });
+      const alreadyReview = await this.reviewRepo.findOne({
+        orderProduct: orderProductId,
+      });
       if (alreadyReview) {
         return next(new ConflictException(responseMessage.ALREADY_REVIEW));
       }
@@ -317,7 +390,10 @@ export class MyPageController extends BaseController {
         reviewImages: imageUrls,
       });
       await this.userRepo.update(user.id, { mileage: user.mileage + 500 });
-      await this.orderProductRepo.update({ id: orderProductId }, { didWriteReview: true });
+      await this.orderProductRepo.update(
+        { id: orderProductId },
+        { didWriteReview: true },
+      );
 
       await this.reviewRepo.save(review);
 
@@ -328,16 +404,27 @@ export class MyPageController extends BaseController {
     }
   };
 
-  public myPageConfirmUser = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public myPageConfirmUser = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction,
+  ) => {
     const { user } = req;
+    console.log(user);
     const { email, password }: ConfirmUserDto = req.body;
     // TODO: compare hashed passwords. We are using raw passwords for dev purpose for the time being.
     try {
-      const userToBeConfirmed = await this.userRepo.findOne({ email, password });
+      const userToBeConfirmed = await this.userRepo.findOne({
+        where: {
+          email,
+          password,
+        },
+        relations: ["address", "socialIssues"],
+      });
       if (!userToBeConfirmed || user.id !== userToBeConfirmed.id) {
         return next(new WrongCredentialsException());
       }
-      this.OK(res, responseMessage.CONFIRM_USER_SUCCESS, user);
+      this.OK(res, responseMessage.CONFIRM_USER_SUCCESS, userToBeConfirmed);
     } catch (e) {
       console.log(e);
       next(new InternalServerException());

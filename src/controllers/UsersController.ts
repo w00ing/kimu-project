@@ -140,8 +140,9 @@ class UsersController extends BaseController {
     const { user } = req;
     const passwordData: UpdateUserPasswordDto = req.body;
     try {
+      // Revert to hashed password
       const hashedPassword = await bcrypt.hash(passwordData.password, 10);
-      await this.userRepo.update(user.id, { password: hashedPassword });
+      await this.userRepo.update(user.id, { password: passwordData.password });
       user.password = undefined;
       this.OK(res, responseMessage.UPDATE_USER_PASSWORD_SUCCESS, user);
     } catch (e) {
@@ -160,7 +161,13 @@ class UsersController extends BaseController {
 
     const { user } = req;
     const updateUserInfoDto: UpdateUserInfoDto = req.body;
-    const { socialIssueNames, ...updateData } = updateUserInfoDto;
+    const {
+      socialIssueNames,
+      zipCode,
+      addressFirstLine,
+      addressSecondLine,
+      ...updateData
+    } = updateUserInfoDto;
     try {
       const socialIssues = await this.getSocialIssues(socialIssueNames);
       if (!socialIssues) {
@@ -168,15 +175,28 @@ class UsersController extends BaseController {
           new NoSuchDataException(responseMessage.NO_SUCH_SOCIAL_ISSUE),
         );
       }
+      await this.addressRepo.save({
+        userId: user.id,
+        zipCode,
+        addressFirstLine,
+        addressSecondLine,
+      });
+      // await this.addressRepo.save(address);
       await this.userRepo
         .createQueryBuilder()
         .update(User)
         .set(updateData)
         .where("id = :userId", { userId: user.id })
         .execute();
-      const updatedUser = await this.userRepo.findOne(user.id);
-      updatedUser.socialIssues = socialIssues;
-      await this.userRepo.save(updatedUser);
+      user.socialIssues = socialIssues;
+      await this.userRepo.save(user);
+      const updatedUser = await this.userRepo.findOne({
+        where: { id: user.id },
+        relations: ["address", "socialIssues"],
+      });
+      // updatedUser.socialIssues = socialIssues;
+      // updatedUser.address = address;
+      // await this.userRepo.save(updatedUser);
       this.OK(res, responseMessage.UPDATE_USER_INFO_SUCCESS, updatedUser);
     } catch (e) {
       console.log(e);
@@ -235,10 +255,15 @@ class UsersController extends BaseController {
       return await this.userRepo
         .createQueryBuilder("user")
         .where("user.email = :email", { email })
+        .leftJoinAndSelect("user.address", "address")
+        .leftJoinAndSelect("user.socialIssues", "socialIssues")
         .addSelect("user.password")
         .getOne();
     } else {
-      return await this.userRepo.findOne({ email });
+      return await this.userRepo.findOne({
+        where: { email },
+        relations: ["address", "socialIssues"],
+      });
     }
   };
 }

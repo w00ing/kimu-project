@@ -19,10 +19,10 @@ class AuthMiddleware {
     next: NextFunction,
   ) => {
     const authHeader = String(req.headers.authorization || "");
-    console.log(authHeader);
+    console.log("AuthHeader", authHeader);
     if (authHeader.startsWith("Bearer ")) {
       const token = authHeader.substring(7, authHeader.length);
-      console.log(token);
+      // console.log(token);
       if (token) {
         try {
           const decodedToken = this.jwt.verify(token);

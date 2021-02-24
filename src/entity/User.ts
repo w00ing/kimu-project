@@ -6,6 +6,7 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { SocialIssue } from "./SocialIssue";
@@ -13,6 +14,7 @@ import { Order } from "./Order";
 import { Cart } from "./Cart";
 import { Review } from "./Review";
 import { Issuedcoupon } from "./Issuedcoupon";
+import { Address } from "./Address";
 
 @Entity()
 export class User {
@@ -27,9 +29,6 @@ export class User {
 
   @Column()
   gender: string;
-
-  @Column({ type: "text", nullable: true })
-  address: string;
 
   @Column({ select: false })
   password: string;
@@ -50,7 +49,9 @@ export class User {
   createdAt: Date;
 
   // Social Issues
-  @ManyToMany(type => SocialIssue, socialIssue => socialIssue.user, { cascade: true })
+  @ManyToMany(type => SocialIssue, socialIssue => socialIssue.user, {
+    cascade: true,
+  })
   @JoinTable()
   socialIssues: SocialIssue[];
 
@@ -69,4 +70,8 @@ export class User {
   // Orders
   @OneToMany(type => Order, order => order.user)
   orders: Order[];
+
+  // Address
+  @OneToOne(type => Address, address => address.user)
+  address: Address;
 }
